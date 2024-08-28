@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex h-screen">
+    {% include 'sidebar.html' %}
+
+    <div class="flex-1 p-8 overflow-auto">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-12 text-center">Configuration</h1>
+
+            <div class="bg-gray-200 p-8 rounded-lg shadow-lg mb-8">
+        
+                <div class="grid grid-cols-2 gap-4 items-center">
+                    <div>
+                        <p class="text-lg mb-4">
+                            This section allows you to configure various parameters of the mass dialer. 
+                        </p>
+                        <p class="text-lg mb-4">
+                            You can set your Client ID, Secret Key, and other important settings necessary 
+                            for the operation of the dialer. 
+                        </p>
+                        <p class="text-lg">
+                            Below, you can also set the time intervals for dialing, maximum retries, 
+                            and other configurations to optimize your call processes.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <img src="https://www.comm100.com/wp-content/uploads/images/blog-banner-ai-powered-chatbot-1.png" alt="Configuration Illustration" class="rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+            
+
+            <!-- Configuration Section -->
+            <div id="configuration" class="mb-16">
+                <h2 class="text-2xl font-semibold mb-16">Settings</h2>
+                <form id="config-form" action="/save_config" method="post" class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="client_id" class="block text-lg font-medium">Client ID</label>
+                            <input type="text" id="client_id" name="client_id" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="secret_key" class="block text-lg font-medium">Secret Key</label>
+                            <input type="text" id="secret_key" name="secret_key" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="bot" class="block text-lg font-medium">Bot</label>
+                            <input type="text" id="bot" name="bot" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="start_hour" class="block text-lg font-medium">Start Hour</label>
+                            <input type="time" id="start_hour" name="start_hour" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="end_hour" class="block text-lg font-medium">End Hour</label>
+                            <input type="time" id="end_hour" name="end_hour" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="retry_time_between_calls" class="block text-lg font-medium">Retry Time Between Calls (in minutes)</label>
+                            <input type="number" id="retry_time_between_calls" name="retry_time_between_calls" class="block w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label for="max_retries" class="block text-lg font-medium">Max Retries</label>
+                            <input type="number" id="max_retries" name="max_retries" class="block w-full p-2 border rounded">
+                        </div>
+                    </div>
+                    <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded border border-green-700">Save Configuration</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

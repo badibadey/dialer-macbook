@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex h-screen">
+    {% include 'sidebar.html' %}
+
+    <div class="flex-1 p-8 overflow-auto">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-8 text-center">Edit User</h1>
+
+            <form action="{{ url_for('edit_user', user_id=user.id) }}" method="post">
+                <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" name="username" id="username" value="{{ user.username }}" required
+                           class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" name="email" id="email" value="{{ user.email }}" required
+                           class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+                    <input type="text" name="role" id="role" value="{{ user.role }}" required
+                           class="mt-1 block w-full p-2 border border-gray-300 rounded">
+                </div>
+                <div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

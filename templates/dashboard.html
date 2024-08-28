@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container flex-1 p-8 overflow-auto">
+
+
+    <h1 class="text-4xl font-bold mb-8 text-center">Dashboard</h1>
+    
+    <!-- Sekcja statystyk -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-8">
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2">Łączna liczba połączeń</h2>
+            <p id="totalCalls" class="text-3xl font-bold text-blue-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2">Udane połączenia</h2>
+            <p id="successfulCalls" class="text-3xl font-bold text-green-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2">Nieudane połączenia</h2>
+            <p id="failedCalls" class="text-3xl font-bold text-red-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2">Średni czas połączenia</h2>
+            <p id="averageCallDuration" class="text-3xl font-bold text-purple-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-2">Łączny czas połączeń</h2>
+            <p id="totalCallDuration" class="text-3xl font-bold text-orange-600"></p>
+        </div>
+    </div>
+
+    <!-- Sekcja wykresów -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="flex flex-col space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
+                <h2 class="text-xl font-semibold mb-4">Statusy</h2>
+                <canvas id="callsByStatusChart"></canvas>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
+                <h2 class="text-xl font-semibold mb-4">Nowy wykres 1</h2>
+                <canvas id="newChart1"></canvas>
+            </div>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
+                <h2 class="text-xl font-semibold mb-4">Błędy</h2>
+                <canvas id="errorStatusChart"></canvas>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
+                <h2 class="text-xl font-semibold mb-4">Nowy wykres 2</h2>
+                <canvas id="newChart2"></canvas>
+            </div>
+        </div>
+        <div class="flex flex-col space-y-6">
+            <div class="bg-white rounded-lg shadow-md p-6 chart-container">
+                <h2 class="text-xl font-semibold mb-4">Success vs Failed</h2>
+                <canvas id="comparisonChart"></canvas>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6 chart-container">
+                <h2 class="text-xl font-semibold mb-4">Wskaźnik sukcesu w czasie</h2>
+                <canvas id="successRateChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+</div>
+
+<!-- Skrypt Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pobieranie danych z endpointu API
+    fetch('/api/dashboard_stats')
+    .then(response => response.json())
+    .then(data => {
+        // Ustawianie danych na stronie
+        document.getElementById('totalCalls').innerText = data.total_calls;
+        document.getElementById('successfulCalls').innerText = data.successful_calls;
+        document.getElementById('failedCalls').innerText = data.failed_calls;
+        document.getElementById('averageCallDuration').innerText = Math.round(data.average_call_duration) + ' sec';
+        document.getElementById('totalCallDuration').innerText = Math.round(data.total_call_duration) + ' sec';
+
+        // Tworzenie wykresów
+        var ctxStatus = document.getElementById('callsByStatusChart').getContext('2d');
+        var callsByStatusChart = new Chart(ctxStatus, {
+            type: 'pie',
+            data: {
+                labels: ['Voicemail', 'Cancelled', 'Bye Status', 'Call Ended Successfully', 'Inne błędy'],
+                datasets: [{
+                    data: [
+                        data.voicemail_calls, 
+                        data.cancelled_calls, 
+                        data.bye_status_calls, 
+                        data.call_ended_successfully, 
+                        data.other_errors
+                    ],
+                    backgroundColor: ['#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#FFA500']
+                }]
+            },
+            options: {
+            responsive: true,
+            maintainAspectRatio: true,
+           
+            
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'right', // Legenda po prawej stronie
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 10
+                    }
+                }
+            }
+        });
+
+        var ctxError = document.getElementById('errorStatusChart').getContext('2d');
+        var errorStatusChart = new Chart(ctxError, {
+            type: 'doughnut',
+            data: {
+                labels: ['Nieudane połączenia', 'Inne błędy'],
+                datasets: [{
+                    data: [
+                        data.failed_calls, 
+                        data.other_errors
+                    ],
+                    backgroundColor: ['#EF4444', '#FF6347']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Zachowanie proporcji wykresu
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            }
+        });
+
+        // Tworzenie wykresu stożkowego dla porównania
+        const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
+        var comparisonChart = new Chart(ctxComparison, {
+            type: 'bar',
+            data: {
+                labels: ['Udane', 'Nieudane'],
+                datasets: [{
+                    label: 'Liczba połączeń',
+                    data: [data.successful_calls, data.failed_calls],
+                    backgroundColor: ['#32CD32', '#FF4500'] // Zielony i czerwony
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,  // Ustawienie początku osi Y na 0
+                        min: 0, // Minimalna wartość osi Y
+                        max: Math.max(data.successful_calls, data.failed_calls) + 1,  // Ustawienie maksymalnej wartości osi Y z dodatkowym marginesem
+                        ticks: {
+                            stepSize: 1 // Ustawienie kroku na 1, aby wszystkie wartości były widoczne
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Ukryj legendę, jeśli nie jest potrzebna
+                    }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Błąd podczas pobierania danych:', error);
+    });
+        
+   // Nowy wykres 1 (przykład)
+var ctxNewChart1 = document.getElementById('newChart1').getContext('2d');
+var newChart1 = new Chart(ctxNewChart1, {
+    type: 'bar',
+    data: {
+        labels: ['Kategoria A', 'Kategoria B', 'Kategoria C', 'Kategoria D'],
+        datasets: [{
+            label: 'Wartości',
+            data: [12, 19, 3, 5],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        title: {
+            display: true,
+            text: 'Nowy wykres 1'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+// Nowy wykres 2 (przykład)
+var ctxNewChart2 = document.getElementById('newChart2').getContext('2d');
+var newChart2 = new Chart(ctxNewChart2, {
+    type: 'line',
+    data: {
+        labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj'],
+        datasets: [{
+            label: 'Trend',
+            data: [65, 59, 80, 81, 56],
+            borderColor: '#4BC0C0',
+            fill: false
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        title: {
+            display: true,
+            text: 'Nowy wykres 2'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});     
+
+
+    fetch('/api/calls_over_time')
+        .then(response => response.json())
+        .then(data => {
+            var ctxOverTime = document.getElementById('callsOverTimeChart').getContext('2d');
+            var callsOverTimeChart = new Chart(ctxOverTime, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Liczba połączeń',
+                        data: data.values,
+                        borderColor: '#3B82F6',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+
+
+
+    fetch('/api/success_rate_over_time')
+        .then(response => response.json())
+        .then(data => {
+            var ctxSuccessRate = document.getElementById('successRateChart').getContext('2d');
+            var successRateChart = new Chart(ctxSuccessRate, {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Wskaźnik sukcesu (%)',
+                        data: data.values,
+                        borderColor: '#10B981',
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true, // Zachowanie proporcji wykresu
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        });
+
+</script>
+{% endblock %}

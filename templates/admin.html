@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        table th, table td {
+            text-align: left;
+        }
+        
+        table th:nth-child(1), table td:nth-child(1) { /* Username column */
+            width: 25%;
+        }
+        
+        table th:nth-child(2), table td:nth-child(2) { /* Email column */
+            width: 35%;
+        }
+        
+        table th:nth-child(3), table td:nth-child(3) { /* Role column */
+            width: 20%;
+        }
+        
+        table th:nth-child(4), table td:nth-child(4) { /* Actions column */
+            width: 20%;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex h-screen">
+    {% include 'sidebar.html' %}
+
+    <div class="flex-1 p-8 overflow-auto">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-3xl font-bold mb-8 text-center">Admin Panel</h1>
+
+            <h2 class="text-2xl font-semibold mb-4">Manage Users</h2>
+            <table class="min-w-full bg-white border border-gray-200 table-auto">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="py-2 px-4 border-b">Username</th>
+                        <th class="py-2 px-4 border-b">Email</th>
+                        <th class="py-2 px-4 border-b">Role</th>
+                        <th class="py-2 px-4 border-b">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ user.username }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.email }}</td>
+                        <td class="py-2 px-4 border-b">{{ user.role }}</td>
+                        <td class="py-2 px-4 border-b">
+                            <a href="{{ url_for('edit_user', user_id=user.id) }}" class="text-blue-600">Edit</a> |
+                            <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display:inline;">
+                                <button type="submit" class="text-red-600">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="mt-8">
+                <a href="{{ url_for('register') }}" class="bg-green-500 text-white px-4 py-2 rounded">Create New User</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<aside class="w-64 md:block hidden bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-600 flex flex-col justify-between">
+    <style>
+        .sidebar-link {
+            font-size: 1.125rem; /* Większe litery */
+            margin-bottom: 1.5rem; /* Większe przerwy między sekcjami */
+        }
+        .sidebar-header {
+            font-size: 1.25rem; /* Większe litery dla nagłówków w sidebarze */
+            margin-bottom: 1.5rem; /* Większe przerwy między nagłówkami a sekcjami */
+        }
+        .sidebar {
+    color: white;
+    padding-top: 3rem;
+    min-width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar img {
+    border-radius: 50%;
+    margin-bottom: 2rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .user-info {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar .user-info h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.sidebar .user-info p {
+    font-size: 0.875rem;
+    color: #bdc3c7;
+}
+
+.sidebar-email {
+    display: block;
+    margin-bottom: 3rem; /* Większa przestrzeń między e-mailem a linkami do stron */
+    font-size: 1rem;
+    text-align: center; /* Wyrównanie tekstu */
+}
+.sidebar .nav {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar .nav li {
+    width: 100%;
+    padding: 0.75rem;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.sidebar .nav li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.sidebar .nav li a .icon {
+    font-size: 1.2rem;
+}
+
+.sidebar .logout {
+    margin-top: auto;
+    margin-bottom: 1rem;
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.sidebar .logout:hover {
+    background-color: #c0392b;
+}
+
+    </style>
+    <div class="sidebar">
+        <a href="#" class="flex items-center pl-2.5 mb-3">
+            <img src="https://i.ibb.co/nBX0JDY/Asset-3.png" class="mr-2 h-24" alt="Ivory Logo">
+        </a>
+        <div class="text-center mb-6">
+            <h2 class="text-lg font-medium text-gray-800 dark:text-white mt-2">{{ current_user.username }}</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ current_user.email }}</p>
+        </div>
+
+        <ul class="space-y-4">
+            <li>
+                <a href="/dashboard" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span class="ml-3">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/configuration" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
+                    <i class="fas fa-cog"></i>
+                    <span class="ml-3">Configuration</span>
+                </a>
+            </li>
+            <li>
+                <a href="/dialer" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
+                    <i class="fas fa-phone-alt"></i>
+                    <span class="ml-3">Dialer</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
+                    <i class="fas fa-archive"></i>
+                    <span class="ml-3">Archive</span>
+                </a>
+            </li>
+            <li class="mb-2">
+                <a href="/admin" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
+                    <i class="fas fa-user-cog"></i>
+                    <span class="ml-2">Admin Panel</span>
+                </a>
+            </li>
+            <div class="mt-auto">
+                <button class="logout-btn bg-red-600 text-white py-2 px-4 rounded w-full mt-4">Logout</button>
+            </div>
+        </ul>
+    </div>
+
+</aside>

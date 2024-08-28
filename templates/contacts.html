@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-10">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-2xl font-bold mb-4">Contacts</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="mb-4">
+                        {% for message in messages %}
+                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                                <span class="block sm:inline">{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Name</th>
+                        <th class="py-2 px-4 border-b">Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        <td class="py-2 px-4 border-b">{{ contact[0] }}</td>
+                        <td class="py-2 px-4 border-b">{{ contact[1] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <a href="/dial/{{ filename }}" class="bg-green-500 text-white px-4 py-2 rounded">Start Dialing</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

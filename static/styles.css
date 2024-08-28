@@ -1,0 +1,209 @@
+/* Styles for buttons */
+.btn {
+    background-color: #4299e1;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: #3182ce;
+}
+.btn-danger {
+    background-color: #f56565;
+}
+.btn-danger:hover {
+    background-color: #e53e3e;
+}
+.btn-success {
+    background-color: #48bb78;
+}
+.btn-success:hover {
+    background-color: #38a169;
+}
+
+.btn-export {
+    background-color: #3182ce;
+}
+.btn-export:hover {
+    background-color: #3182ce;
+}
+
+/* Styles for the table */
+.table th, .table td {
+    padding: 0.5rem; /* Zmniejszony padding */
+    text-align: left; /* Wyrównanie tekstu do lewej w tabeli */
+}
+.table th {
+    background-color: #f3f4f6;
+}
+.table tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+.table th:first-child, .table td:first-child {
+    padding-left: 1rem; /* Dodanie paddingu do tabeli z lewej strony dla pierwszej kolumny */
+}
+
+/* Styles for sidebar */
+.sidebar-link {
+    font-size: 1.125rem; /* Większe litery */
+    margin-bottom: 1.5rem; /* Większe przerwy między sekcjami */
+}
+.sidebar-header {
+    font-size: 1.25rem; /* Większe litery dla nagłówków w sidebarze */
+    margin-bottom: 1.5rem; /* Większe przerwy między nagłówkami a sekcjami */
+}
+
+.w-full {
+    width: 100% !important;
+}
+
+.max-w-screen-lg {
+    max-width: 1024px !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+/* Alert container */
+
+.alert-container {
+    margin-top: 10px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    z-index: 1000;
+    text-align: center;
+    font-size: 1.2em;
+    display: none;
+}
+
+.grid-cols-4 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ustawienie odstępów między elementami */
+    gap: 16px; /* Odstęp między elementami */
+}
+
+
+
+.bg-white {
+    padding: 24px; /* Zwiększenie paddingu */
+    margin-bottom: 16px; /* Zwiększenie dolnego marginesu */
+}
+
+.px-8 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
+
+.py-8 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.chart-container {
+    flex: 1 1 22%; /* Pozwala na wyświetlenie czterech wykresów w jednym rzędzie */
+    height: 400px; /* Stała wysokość kontenera */
+    max-width: calc(25% - 16px); /* Cztery wykresy na jednej linii z odstępami */
+    margin: 0 8px; /* Odstęp między wykresami */
+    box-sizing: border-box; /* Uwzględnia marginesy i padding w szerokości i wysokości */
+}
+
+canvas {
+    display: block; /* Upewnij się, że canvas jest blokowy */
+    max-width: 100%; /* Zapewnia, że canvas dostosuje się do szerokości kontenera */
+    max-height: 100%; /* Zapewnia, że canvas dostosuje się do wysokości kontenera */
+}
+
+.logout-btn {
+    position: relative;
+    display: block;
+    margin-top: 2rem; /* Lub więcej, jeśli potrzeba */
+    padding: 10px 20px;
+    background-color: #e3342f;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.content-wrapper {
+    padding-bottom: 50px; /* Margines dolny dla dodatkowej przestrzeni */
+}
+
+.container {
+    min-height: 100vh; /* Kontener zajmuje przynajmniej wysokość ekranu */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.chart-section {
+    overflow: auto;
+}
+
+.dashboard-container .chart-container {
+    height: 300px; /* Stała wysokość dla kontenera wykresu */
+    width: 100%; /* Stała szerokość */
+    position: relative;
+}
+
+.dashboard-container .chart-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.dashboard-container .chart-container.legend-right {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.dashboard-container .chart-container.legend-right canvas {
+    flex: 1;
+    max-width: 70%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.dashboard-container .chart-container.legend-right .chartjs-legend {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 10px;
+}
+
+.dashboard-container .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.dashboard-container .flex {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
