@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="flex-1 p-8 overflow-auto bg-gray-100">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold mb-8 text-center">Phone Number Blacklist</h1>
+
+        <!-- Add number to blacklist form -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Add Number to Blacklist</h2>
+            <form action="{{ url_for('blacklist') }}" method="post" class="flex space-x-4">
+                <input type="text" name="number" placeholder="Enter phone number" required
+                       class="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-black">
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
+                    Add to Blacklist
+                </button>
+            </form>
+        </div>
+
+        <!-- Search form -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">Search Blacklisted Numbers</h2>
+            <form action="{{ url_for('blacklist') }}" method="get" class="flex space-x-4">
+                <input type="text" name="search" placeholder="Search for a number" value="{{ search_query }}"
+                       class="flex-grow p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Search
+                </button>
+                {% if search_query %}
+                    <a href="{{ url_for('blacklist') }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                        Clear
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Blacklisted numbers list -->
+        <div>
+            <h2 class="text-2xl font-semibold mb-4">Blacklisted Numbers</h2>
+            {% if blacklisted_numbers %}
+                <ul class="space-y-2">
+                    {% for number in blacklisted_numbers %}
+                        <li class="flex justify-between items-center bg-gray-100 p-3 rounded">
+                            <span>{{ number }}</span>
+                            <button onclick="removeFromBlacklist('{{ number }}')" class="text-red-500 hover:text-red-700">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-500">
+                    {% if search_query %}
+                        No numbers found matching your search.
+                    {% else %}
+                        No numbers in the blacklist.
+                    {% endif %}
+                </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+function removeFromBlacklist(number) {
+    if (confirm('Are you sure you want to remove this number from the blacklist?')) {
+        fetch('/remove_from_blacklist', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ number: number }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Failed to remove number from blacklist');
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

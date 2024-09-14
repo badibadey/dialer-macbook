@@ -5,7 +5,7 @@ from threading import Thread
 from audiocodes_api import AudioCodesAPI
 
 dialing = False
-max_concurrent_calls = 10
+max_concurrent_calls = 6
 current_calls = 0
 max_call_duration = 10000000  # 3 minuty w sekundach
 status_check_interval = 15  # Sprawdzaj status co 15 sekund

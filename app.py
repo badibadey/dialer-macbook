@@ -15,6 +15,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from sqlalchemy.orm import Session
 import pytz
+from flask_migrate import Migrate
 
 # Ustawienie domyślnej strefy czasowej na Warszawę
 default_timezone = pytz.timezone('Europe/Warsaw')
@@ -36,6 +37,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_database.db'
 print(app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 UPLOAD_FOLDER = 'static/uploads'
@@ -54,6 +56,29 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    blacklist = db.Column(db.Text)  # Przechowuj zablokowane numery jako ciąg znaków oddzielony przecinkami
+
+    def add_to_blacklist(self, number):
+        if self.blacklist:
+            blacklist = set(self.blacklist.split(','))
+            blacklist.add(number)
+            self.blacklist = ','.join(blacklist)
+        else:
+            self.blacklist = number
+        db.session.commit()
+
+    def remove_from_blacklist(self, number):
+        if self.blacklist:
+            blacklist = set(self.blacklist.split(','))
+            if number in blacklist:
+                blacklist.remove(number)
+                self.blacklist = ','.join(blacklist) if blacklist else None
+                db.session.commit()
+                return True
+        return False
+
+    def get_blacklist(self):
+        return self.blacklist.split(',') if self.blacklist else []
 
 class Archive(db.Model):
     __tablename__ = 'archive'
@@ -139,10 +164,12 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
-        session.clear()
-        flash('You have been logged out.')
-        return redirect(url_for('login'))
+    logout_user()
+    session.clear()
+    flash('Zostałeś wylogowany.', 'info')
+    return render_template('logout.html')
 
 @app.route('/admin')
 @login_required
@@ -306,31 +333,43 @@ def get_statuses():
 def load_contacts(filepath):
     global contacts
     contacts = []
+    blacklisted_numbers = current_user.get_blacklist()
     with open(filepath, newline='') as csvfile:
         csvreader = csv.reader(csvfile)
         for row in csvreader:
+            phone = f"+{row[0].strip()}"
+            if phone not in blacklisted_numbers:
+                contact = {
+                    'phone': phone,
+                    'status': 'Not Called',
+                    'time': '',
+                    'reason': '',
+                    'duration': ''
+                }
+                contacts.append(contact)
+            else:
+                logging.info(f"Pominięto numer z blacklisty: {phone}")
+
+@app.route('/add_contact', methods=['POST'])
+@login_required
+def add_contact():
+    phone = request.form['phone']
+    if phone:
+        phone = f"+{phone.strip()}"
+        if phone not in current_user.get_blacklist():
             contact = {
-                'phone': f"+{row[0].strip()}",
+                'phone': phone,
                 'status': 'Not Called',
                 'time': '',
                 'reason': '',
                 'duration': ''
             }
             contacts.append(contact)
-
-@app.route('/add_contact', methods=['POST'])
-def add_contact():
-    phone = request.form['phone']
-    if phone:
-        contact = {
-            'phone': f"+{phone.strip()}",
-            'status': 'Not Called',
-            'time': '',
-            'reason': '',
-            'duration': ''
-        }
-        contacts.append(contact)
-        logging.info(f"Manually added contact: {contact}")
+            logging.info(f"Ręcznie dodano kontakt: {contact}")
+            flash('Kontakt dodany pomyślnie.', 'success')
+        else:
+            logging.info(f"Próba dodania numeru z blacklisty: {phone}")
+            flash('Numer jest na czarnej liście i został pominięty.', 'warning')
     return redirect(url_for('dialer_view'))
 
 @app.route('/export_csv')
@@ -590,7 +629,33 @@ def success_rate_over_time():
         logging.error(f"Error in success_rate_over_time: {e}")
         return jsonify({'error': 'An error occurred while fetching success rate over time.'}), 500
 
+@app.route('/blacklist', methods=['GET', 'POST'])
+@login_required
+def blacklist():
+    if request.method == 'POST':
+        number = request.form.get('number')
+        if number:
+            current_user.add_to_blacklist(number)
+            flash('Number added to blacklist', 'success')
+        return redirect(url_for('blacklist'))
+    
+    search_query = request.args.get('search', '')
+    blacklisted_numbers = current_user.get_blacklist()
+    
+    if search_query:
+        blacklisted_numbers = [num for num in blacklisted_numbers if search_query in num]
+    
+    return render_template('blacklist.html', blacklisted_numbers=blacklisted_numbers, search_query=search_query)
 
+@app.route('/remove_from_blacklist', methods=['POST'])
+@login_required
+def remove_from_blacklist():
+    data = request.json
+    number = data.get('number')
+    if number:
+        success = current_user.remove_from_blacklist(number)
+        return jsonify({'success': success})
+    return jsonify({'success': False})
 
 if __name__ == '__main__':
     with app.app_context():

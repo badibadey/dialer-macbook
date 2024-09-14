@@ -1,270 +1,268 @@
-+﻿48608289950,Failed,2024-08-22 09:59:48,Failed to start call,N/A
-+48605259158,Failed,2024-08-22 09:59:51,voicemail detected,4 seconds
-+48508323244,Failed,2024-08-22 09:59:53,cancel,0 seconds
-+48503125932,Failed,2024-08-22 09:59:55,voicemail detected,2 seconds
-+48504101832,Success,2024-08-22 09:59:58,Call ended successfully,10 seconds
-+48600169611,Success,2024-08-22 09:59:59,Call ended successfully,9 seconds
-+48604160573,Success,2024-08-22 10:00:02,Call ended successfully,10 seconds
-+48513016276,Success,2024-08-22 10:00:03,Call ended successfully,26 seconds
-+48604485608,Success,2024-08-22 10:00:05,Call ended successfully,16 seconds
-+48792630630,Failed,2024-08-22 10:00:07,voicemail detected,2 seconds
-+48513858281,Failed,2024-08-22 10:00:09,cancel,0 seconds
-+48604578099,Not Called,,,
-+48509080117,Not Called,,,
-+48798127073,Not Called,,,
-+48511872043,Not Called,,,
-+48512341454,Not Called,,,
-+48516120331,Not Called,,,
-+48513062068,Not Called,,,
-+48507787914,Not Called,,,
-+48737926650,Not Called,,,
-+48605555420,Not Called,,,
-+48737793708,Not Called,,,
-+48601273619,Not Called,,,
-+48505165440,Not Called,,,
-+48516465549,Not Called,,,
-+48500476367,Not Called,,,
-+48506516684,Not Called,,,
-+48511286194,Not Called,,,
-+48781101309,Not Called,,,
-+48508108486,Not Called,,,
-+48509494468,Not Called,,,
-+48537700730,Not Called,,,
-+48783271921,Not Called,,,
-+48510974350,Not Called,,,
-+48509457450,Not Called,,,
-+48503971609,Not Called,,,
-+48517506131,Not Called,,,
-+48883574657,Not Called,,,
-+48798908063,Not Called,,,
-+48514388538,Not Called,,,
-+48501231096,Not Called,,,
-+48504258885,Not Called,,,
-+48506050037,Not Called,,,
-+48601279647,Not Called,,,
-+48514396821,Not Called,,,
-+48503433412,Not Called,,,
-+48500125128,Not Called,,,
-+48509111081,Not Called,,,
-+48661733883,Not Called,,,
-+48502087265,Not Called,,,
-+48516389718,Not Called,,,
-+48509393951,Not Called,,,
-+48504630600,Not Called,,,
-+48514191364,Not Called,,,
-+48512446275,Not Called,,,
-+48517387334,Not Called,,,
-+48604786511,Not Called,,,
-+48516595473,Not Called,,,
-+48693349142,Not Called,,,
-+48506025525,Not Called,,,
-+48884010104,Not Called,,,
-+48698625691,Not Called,,,
-+48519593647,Not Called,,,
-+48606820485,Not Called,,,
-+48500603559,Not Called,,,
-+48518179980,Not Called,,,
-+48514826421,Not Called,,,
-+48512140916,Not Called,,,
-+48500123909,Not Called,,,
-+48697225712,Not Called,,,
-+48513159730,Not Called,,,
-+48513552950,Not Called,,,
-+48505773919,Not Called,,,
-+48518493602,Not Called,,,
-+48506867096,Not Called,,,
-+48503052180,Not Called,,,
-+48507304394,Not Called,,,
-+48511029358,Not Called,,,
-+48793014538,Not Called,,,
-+48518763140,Not Called,,,
-+48791356997,Not Called,,,
-+48604959762,Not Called,,,
-+48739076300,Not Called,,,
-+48510181273,Not Called,,,
-+48502671337,Not Called,,,
-+48790400660,Not Called,,,
-+48692813720,Not Called,,,
-+48507198130,Not Called,,,
-+48663108489,Not Called,,,
-+48604098339,Not Called,,,
-+48519744683,Not Called,,,
-+48533000151,Not Called,,,
-+48500105001,Not Called,,,
-+48606265341,Not Called,,,
-+48516063036,Not Called,,,
-+48512796813,Not Called,,,
-+48505698311,Not Called,,,
-+48796862447,Not Called,,,
-+48510932423,Not Called,,,
-+48508734682,Not Called,,,
-+48500005246,Not Called,,,
-+48662605218,Not Called,,,
-+48601096170,Not Called,,,
-+48798073186,Not Called,,,
-+48607960449,Not Called,,,
-+48509770545,Not Called,,,
-+48605634889,Not Called,,,
-+48501652806,Not Called,,,
-+48881914776,Not Called,,,
-+48509392043,Not Called,,,
-+48503048135,Not Called,,,
-+48531281971,Not Called,,,
-+48507604023,Not Called,,,
-+48508330224,Not Called,,,
-+48668914018,Not Called,,,
-+48507147474,Not Called,,,
-+48663142127,Not Called,,,
-+48505174550,Not Called,,,
-+48782232893,Not Called,,,
-+48513152882,Not Called,,,
-+48502518123,Not Called,,,
-+48602845245,Not Called,,,
-+48500265508,Not Called,,,
-+48691308608,Not Called,,,
-+48503008534,Not Called,,,
-+48603966633,Not Called,,,
-+48660342711,Not Called,,,
-+48798626391,Not Called,,,
-+48795116837,Not Called,,,
-+48512475022,Not Called,,,
-+48698981185,Not Called,,,
-+48500267991,Not Called,,,
-+48608688609,Not Called,,,
-+48501630099,Not Called,,,
-+48606417676,Not Called,,,
-+48515515333,Not Called,,,
-+48505320230,Not Called,,,
-+48662272926,Not Called,,,
-+48514145534,Not Called,,,
-+48603609804,Not Called,,,
-+48608354996,Not Called,,,
-+48669881441,Not Called,,,
-+48505123741,Not Called,,,
-+48502537959,Not Called,,,
-+48606496726,Not Called,,,
-+48692428846,Not Called,,,
-+48781092905,Not Called,,,
-+48507115797,Not Called,,,
-+48600155548,Not Called,,,
-+48604561469,Not Called,,,
-+48504803272,Not Called,,,
-+48605175410,Not Called,,,
-+48503102159,Not Called,,,
-+48609800864,Not Called,,,
-+48603135807,Not Called,,,
-+48602434327,Not Called,,,
-+48606334965,Not Called,,,
-+48607572425,Not Called,,,
-+48604263691,Not Called,,,
-+48604615535,Not Called,,,
-+48503151523,Not Called,,,
-+48516943927,Not Called,,,
-+48606836074,Not Called,,,
-+48516407138,Not Called,,,
-+48606996431,Not Called,,,
-+48605884944,Not Called,,,
-+48792212015,Not Called,,,
-+48533125788,Not Called,,,
-+48512224876,Not Called,,,
-+48660472942,Not Called,,,
-+48604674115,Not Called,,,
-+48507156638,Not Called,,,
-+48506393588,Not Called,,,
-+48503120722,Not Called,,,
-+48603184259,Not Called,,,
-+48663294979,Not Called,,,
-+48576644131,Not Called,,,
-+48572120998,Not Called,,,
-+48503099217,Not Called,,,
-+48533143685,Not Called,,,
-+48511164109,Not Called,,,
-+48504931246,Not Called,,,
-+48510259038,Not Called,,,
-+48605554567,Not Called,,,
-+48668821810,Not Called,,,
-+48500706620,Not Called,,,
-+48501556914,Not Called,,,
-+48602581694,Not Called,,,
-+48502587971,Not Called,,,
-+48602714598,Not Called,,,
-+48887913572,Not Called,,,
-+48603152968,Not Called,,,
-+48601275707,Not Called,,,
-+48504074571,Not Called,,,
-+48513356282,Not Called,,,
-+48503197433,Not Called,,,
-+48694081247,Not Called,,,
-+48509591795,Not Called,,,
-+48501690529,Not Called,,,
-+48507355917,Not Called,,,
-+48502925581,Not Called,,,
-+48515606754,Not Called,,,
-+48601202494,Not Called,,,
-+48601914800,Not Called,,,
-+48730720995,Not Called,,,
-+48501232700,Not Called,,,
-+48605179029,Not Called,,,
-+48661618740,Not Called,,,
-+48513650550,Not Called,,,
-+48512794959,Not Called,,,
-+48669200470,Not Called,,,
-+48502322123,Not Called,,,
-+48699390933,Not Called,,,
-+48698816907,Not Called,,,
-+48603396937,Not Called,,,
-+48511466984,Not Called,,,
-+48605977800,Not Called,,,
-+48513994331,Not Called,,,
-+48502722227,Not Called,,,
-+48509791210,Not Called,,,
-+48796778667,Not Called,,,
-+48507072535,Not Called,,,
-+48502603399,Not Called,,,
-+48502366471,Not Called,,,
-+48507072549,Not Called,,,
-+48509465440,Not Called,,,
-+48668706448,Not Called,,,
-+48517318950,Not Called,,,
-+48694458993,Not Called,,,
-+48501449003,Not Called,,,
-+48692700665,Not Called,,,
-+48502339775,Not Called,,,
-+48695490222,Not Called,,,
-+48506148904,Not Called,,,
-+48694378441,Not Called,,,
-+48512341533,Not Called,,,
-+48798743207,Not Called,,,
-+48696871369,Not Called,,,
-+48728928702,Not Called,,,
-+48512341203,Not Called,,,
-+48507211721,Not Called,,,
-+48608471210,Not Called,,,
-+48501733441,Not Called,,,
-+48500869160,Not Called,,,
-+48666528629,Not Called,,,
-+48797018626,Not Called,,,
-+48508345517,Not Called,,,
-+48604364258,Not Called,,,
-+48502268607,Not Called,,,
-+48664734482,Not Called,,,
-+48504100298,Not Called,,,
-+48797509372,Not Called,,,
-+48506707219,Not Called,,,
-+48509588694,Not Called,,,
-+48509208592,Not Called,,,
-+48797688822,Not Called,,,
-+48513845738,Not Called,,,
-+48662496665,Not Called,,,
-+48575113627,Not Called,,,
-+48502087295,Not Called,,,
-+48506457839,Not Called,,,
-+48660611882,Not Called,,,
-+48505113994,Not Called,,,
-+48502331792,Not Called,,,
-+48505124143,Not Called,,,
-+48785477526,Not Called,,,
-+48501363839,Not Called,,,
-+48693565424,Not Called,,,
-+48798049793,Not Called,,,
-+48501827855,Not Called,,,
++﻿48793474748,Failed,2024-09-13 11:24:17,Failed to start call,N/A
++48517503636,Failed,2024-09-13 11:24:19,cancel,0 seconds
++48661246171,Failed,2024-09-13 11:24:21,cancel,0 seconds
++48513636750,Failed,2024-09-13 11:24:23,cancel,0 seconds
++48513101385,Failed,2024-09-13 11:24:26,voicemail detected,4 seconds
++48512939736,Failed,2024-09-13 11:24:28,cancel,0 seconds
++48883770752,Failed,2024-09-13 11:24:30,cancel,0 seconds
++48537976668,Failed,2024-09-13 11:24:51,cancel,0 seconds
++48693629529,Failed,2024-09-13 11:24:54,cancel,0 seconds
++48691276906,Success,2024-09-13 11:24:56,Call ended successfully,67 seconds
++48500661011,Success,2024-09-13 11:24:58,Call ended successfully,7 seconds
++48570350164,Failed,2024-09-13 11:25:00,cancel,0 seconds
++48538494963,Failed,2024-09-13 11:25:02,cancel,0 seconds
++48507124867,Success,2024-09-13 11:25:23,Call ended successfully,2 seconds
++48501318306,Failed,2024-09-13 11:25:26,cancel,0 seconds
++48509334754,Failed,2024-09-13 11:25:29,cancel,0 seconds
++48578020225,Failed,2024-09-13 11:25:31,cancel,0 seconds
++48509111881,Failed,2024-09-13 11:25:33,cancel,0 seconds
++48609353160,Failed,2024-09-13 11:25:55,cancel,0 seconds
++48507196299,Success,2024-09-13 11:25:57,User busy,0 seconds
++48505501323,Failed,2024-09-13 11:26:00,cancel,0 seconds
++48504522420,Failed,2024-09-13 11:26:03,cancel,0 seconds
++48883677166,Failed,2024-09-13 11:26:05,cancel,0 seconds
++48601237746,Failed,2024-09-13 11:26:13,cancel,0 seconds
++48502955651,Failed,2024-09-13 11:27:14,cancel,0 seconds
++48501792451,Success,2024-09-13 11:27:16,Call ended successfully,12 seconds
++48515357110,Failed,2024-09-13 11:27:18,cancel,0 seconds
++48696272914,Success,2024-09-13 11:27:20,bye,0 seconds
++48774371426,Failed,2024-09-13 11:27:22,cancel,0 seconds
++48781319455,Success,2024-09-13 11:27:26,User busy,0 seconds
++48604970640,Success,2024-09-13 11:27:36,Call ended successfully,1 seconds
++48502896864,Success,2024-09-13 11:27:43,Call ended successfully,6 seconds
++48601202105,Success,2024-09-13 11:27:45,bye,35 seconds
++48798509751,Failed,2024-09-13 11:27:47,cancel,0 seconds
++48669475301,Failed,2024-09-13 11:27:50,cancel,0 seconds
++48602706135,Failed,2024-09-13 11:27:53,cancel,0 seconds
++48736848220,Failed,2024-09-13 11:27:54,cancel,0 seconds
++48794389672,Success,2024-09-13 11:29:04,Call ended successfully,30 seconds
++48797385826,Failed,2024-09-13 11:29:07,cancel,0 seconds
++48510954926,Failed,2024-09-13 11:29:10,cancel,0 seconds
++48795565560,Failed,2024-09-13 11:29:11,cancel,0 seconds
++48660195515,Failed,2024-09-13 11:29:15,voicemail detected,4 seconds
++48572755326,Failed,2024-09-13 11:29:17,cancel,0 seconds
++48512150190,Success,2024-09-13 11:29:31,Call ended successfully,129 seconds
++48661422326,Failed,2024-09-13 11:29:38,cancel,0 seconds
++48725811198,Success,2024-09-13 11:29:41,bye,34 seconds
++48503139457,Success,2024-09-13 11:29:44,User busy,0 seconds
++48661521888,Failed,2024-09-13 11:29:49,cancel,0 seconds
++48501074261,Failed,2024-09-13 11:29:51,cancel,0 seconds
++48606256514,Failed,2024-09-13 11:30:52,cancel,0 seconds
++48605215657,Failed,2024-09-13 11:30:54,cancel,0 seconds
++48787127822,Failed,2024-09-13 11:30:58,cancel,0 seconds
++48600107280,Failed,2024-09-13 11:31:01,cancel,0 seconds
++48733336324,Success,2024-09-13 11:31:05,Call ended successfully,2 seconds
++48501805250,Failed,2024-09-13 11:31:24,cancel,0 seconds
++48798783464,Failed,2024-09-13 11:31:26,cancel,0 seconds
++48601795026,Failed,2024-09-13 11:31:30,cancel,0 seconds
++48606616280,Failed,2024-09-13 11:31:32,cancel,0 seconds
++48696625274,Failed,2024-09-13 11:31:36,cancel,0 seconds
++48660564139,Failed,2024-09-13 11:32:43,cancel,0 seconds
++48723989568,Failed,2024-09-13 11:32:47,cancel,0 seconds
++48885686311,Failed,2024-09-13 11:32:48,cancel,0 seconds
++48505044360,Failed,2024-09-13 11:32:50,cancel,0 seconds
++48696996477,Failed,2024-09-13 11:32:52,cancel,0 seconds
++48880374424,Failed,2024-09-13 11:32:56,voicemail detected,3 seconds
++48603606735,Failed,2024-09-13 11:33:12,cancel,0 seconds
++48607786203,Failed,2024-09-13 11:33:15,cancel,0 seconds
++48725088325,Failed,2024-09-13 11:33:18,cancel,0 seconds
++48885853961,Failed,2024-09-13 11:33:20,cancel,0 seconds
++48506745199,Success,2024-09-13 11:33:22,Call ended successfully,29 seconds
++48512702774,Failed,2024-09-13 11:33:24,voicemail detected,2 seconds
++48501532451,Failed,2024-09-13 11:34:35,cancel,0 seconds
++48605875583,Success,2024-09-13 11:34:37,Call ended successfully,15 seconds
++48505322254,Failed,2024-09-13 11:34:40,cancel,0 seconds
++48605572363,Success,2024-09-13 11:34:44,Call ended successfully,6 seconds
++48603181071,Success,2024-09-13 11:34:47,User busy,0 seconds
++48500201121,Success,2024-09-13 11:34:53,Call ended successfully,59 seconds
++48501370966,Failed,2024-09-13 11:35:08,cancel,0 seconds
++48663488876,Failed,2024-09-13 11:35:13,cancel,0 seconds
++48693074524,Failed,2024-09-13 11:35:15,cancel,0 seconds
++48517502939,Failed,2024-09-13 11:35:19,cancel,0 seconds
++48512514386,Failed,2024-09-13 11:35:24,cancel,0 seconds
++48538357344,Failed,2024-09-13 11:36:25,cancel,0 seconds
++48602383547,Failed,2024-09-13 11:36:27,cancel,0 seconds
++48883933346,Failed,2024-09-13 11:36:29,voicemail detected,3 seconds
++48500146529,Failed,2024-09-13 11:36:31,cancel,0 seconds
++48724680325,Failed,2024-09-13 11:36:32,cancel,0 seconds
++48609730422,Failed,2024-09-13 11:36:36,cancel,0 seconds
++48692151391,Success,2024-09-13 11:36:45,User busy,0 seconds
++48792437576,Failed,2024-09-13 11:36:57,voicemail detected,2 seconds
++48728928426,Failed,2024-09-13 11:36:59,cancel,0 seconds
++48693626261,Success,2024-09-13 11:37:01,Call ended successfully,15 seconds
++48576580617,Failed,2024-09-13 11:37:03,cancel,0 seconds
++48533185087,Failed,2024-09-13 11:37:05,Dialout: no answer,0 seconds
++48507871378,Failed,2024-09-13 11:37:07,cancel,0 seconds
++48505357663,Failed,2024-09-13 11:37:13,voicemail detected,5 seconds
++48579901578,Success,2024-09-13 11:38:15,Call ended successfully,8 seconds
++48570355105,Failed,2024-09-13 11:38:18,cancel,0 seconds
++48516126936,Success,2024-09-13 11:38:20,Call ended successfully,10 seconds
++48509248345,Success,2024-09-13 11:38:22,Call ended successfully,16 seconds
++48602232162,Success,2024-09-13 11:38:24,Call ended successfully,33 seconds
++48512203396,Failed,2024-09-13 11:38:30,voicemail detected,3 seconds
++48503972589,Failed,2024-09-13 11:38:46,cancel,0 seconds
++48503756123,Failed,2024-09-13 11:38:49,cancel,0 seconds
++48601910443,Failed,2024-09-13 11:38:51,cancel,0 seconds
++48600895382,Failed,2024-09-13 11:38:54,cancel,0 seconds
++48512994910,Failed,2024-09-13 11:39:01,cancel,0 seconds
++48606920418,Success,2024-09-13 11:40:07,Call ended successfully,1 seconds
++48516155450,Failed,2024-09-13 11:40:09,cancel,0 seconds
++48514390855,Success,2024-09-13 11:40:11,User busy,0 seconds
++48451179279,Failed,2024-09-13 11:40:13,cancel,0 seconds
++48886144896,Success,2024-09-13 11:40:17,bye,34 seconds
++48748124928,Failed,2024-09-13 11:40:19,cancel,0 seconds
++48503138285,Failed,2024-09-13 11:40:27,voicemail detected,3 seconds
++48501959232,Failed,2024-09-13 11:40:38,voicemail detected,4 seconds
++48507226775,Failed,2024-09-13 11:40:40,voicemail detected,5 seconds
++48516017356,Failed,2024-09-13 11:40:42,cancel,0 seconds
++48691738519,Failed,2024-09-13 11:40:44,voicemail detected,4 seconds
++48532114031,Failed,2024-09-13 11:40:50,cancel,0 seconds
++48514111814,Failed,2024-09-13 11:41:55,cancel,0 seconds
++48796413242,Failed,2024-09-13 11:41:57,cancel,0 seconds
++48510663251,Failed,2024-09-13 11:41:59,cancel,0 seconds
++48500769328,Failed,2024-09-13 11:42:01,cancel,0 seconds
++48790386489,Failed,2024-09-13 11:42:04,cancel,0 seconds
++48721401122,Failed,2024-09-13 11:42:07,cancel,0 seconds
++48535995661,Success,2024-09-13 11:42:27,Call ended successfully,10 seconds
++48607430815,Failed,2024-09-13 11:42:28,cancel,0 seconds
++48501699405,Failed,2024-09-13 11:42:31,voicemail detected,6 seconds
++48781134899,Success,2024-09-13 11:42:32,Call ended successfully,8 seconds
++48660808521,Failed,2024-09-13 11:42:36,cancel,0 seconds
++48663873211,Failed,2024-09-13 11:42:39,voicemail detected,2 seconds
++48660826257,Failed,2024-09-13 11:43:45,cancel,0 seconds
++48605060862,Failed,2024-09-13 11:43:47,cancel,0 seconds
++48510570097,Failed,2024-09-13 11:43:50,cancel,0 seconds
++48505201666,Failed,2024-09-13 11:43:53,cancel,0 seconds
++48517321703,Failed,2024-09-13 11:43:55,cancel,0 seconds
++48510174007,Success,2024-09-13 11:43:59,Call ended successfully,8 seconds
++48515106014,Success,2024-09-13 11:44:17,bye,120 seconds
++48606221961,Failed,2024-09-13 11:45:35,voicemail detected,3 seconds
++48511437200,Success,2024-09-13 11:45:37,Call ended successfully,42 seconds
++48691727762,Success,2024-09-13 11:45:40,Call ended successfully,31 seconds
++48698537396,Failed,2024-09-13 11:45:42,cancel,0 seconds
++48698647789,Failed,2024-09-13 11:45:47,cancel,0 seconds
++48662014395,Failed,2024-09-13 11:45:52,cancel,0 seconds
++48668328016,Failed,2024-09-13 11:46:14,cancel,0 seconds
++48530150860,Failed,2024-09-13 11:46:19,voicemail detected,3 seconds
++48503497714,Success,2024-09-13 11:46:23,bye,34 seconds
++48731933331,Failed,2024-09-13 11:47:25,cancel,0 seconds
++48669131462,Failed,2024-09-13 11:47:26,cancel,0 seconds
++48600246621,Failed,2024-09-13 11:47:28,cancel,0 seconds
++48508749267,Failed,2024-09-13 11:47:30,cancel,0 seconds
++48574772503,Failed,2024-09-13 11:47:36,cancel,0 seconds
++48660083663,Failed,2024-09-13 11:47:37,cancel,0 seconds
++48505862203,Success,2024-09-13 11:47:56,User busy,0 seconds
++48662802790,Success,2024-09-13 11:47:58,Call ended successfully,7 seconds
++48515018121,Failed,2024-09-13 11:48:01,cancel,0 seconds
++48663168873,Failed,2024-09-13 11:48:03,voicemail detected,4 seconds
++48731673556,Failed,2024-09-13 11:48:07,cancel,0 seconds
++48535524433,Failed,2024-09-13 11:48:09,cancel,0 seconds
++48571890661,Failed,2024-09-13 11:48:12,cancel,0 seconds
++48516579836,Failed,2024-09-13 11:49:15,voicemail detected,3 seconds
++48574018426,Failed,2024-09-13 11:49:17,cancel,0 seconds
++48603913347,Failed,2024-09-13 11:49:19,cancel,0 seconds
++48506604941,Failed,2024-09-13 11:49:24,cancel,0 seconds
++48605318648,Success,2024-09-13 11:49:27,bye,110 seconds
++48693497717,Failed,2024-09-13 11:49:29,cancel,0 seconds
++48696090471,Failed,2024-09-13 11:49:31,cancel,0 seconds
++48797040828,Failed,2024-09-13 11:49:49,cancel,0 seconds
++48606772644,Failed,2024-09-13 11:49:51,cancel,0 seconds
++48691574777,Success,2024-09-13 11:49:56,User busy,0 seconds
++48508146105,Failed,2024-09-13 11:50:01,cancel,0 seconds
++48512844815,Failed,2024-09-13 11:50:03,cancel,0 seconds
++48785439238,Success,2024-09-13 11:51:06,bye,0 seconds
++48609832717,Failed,2024-09-13 11:51:08,cancel,0 seconds
++48667484343,Failed,2024-09-13 11:51:12,cancel,0 seconds
++48576234281,Failed,2024-09-13 11:51:17,cancel,0 seconds
++48785212850,Failed,2024-09-13 11:51:20,cancel,0 seconds
++48608355072,Success,2024-09-13 11:51:23,User busy,0 seconds
++48887635144,Failed,2024-09-13 11:51:38,cancel,0 seconds
++48505973192,Failed,2024-09-13 11:51:40,cancel,0 seconds
++48509537783,Success,2024-09-13 11:51:43,Call ended successfully,14 seconds
++48881694433,Success,2024-09-13 11:51:45,bye,33 seconds
++48508109469,Failed,2024-09-13 11:51:48,cancel,0 seconds
++48665804983,Failed,2024-09-13 11:51:51,cancel,0 seconds
++48609310638,Failed,2024-09-13 11:52:54,voicemail detected,4 seconds
++48601241806,Success,2024-09-13 11:52:57,Call ended successfully,18 seconds
++48724129016,Failed,2024-09-13 11:53:00,voicemail detected,4 seconds
++48662240729,Success,2024-09-13 11:53:02,User busy,0 seconds
++48668993713,Success,2024-09-13 11:53:04,Call ended successfully,254 seconds
++48604966658,Failed,2024-09-13 11:53:08,cancel,0 seconds
++48500126201,Success,2024-09-13 11:53:18,Call ended successfully,17 seconds
++48509995187,Failed,2024-09-13 11:53:26,cancel,0 seconds
++48665845373,Success,2024-09-13 11:53:31,Call ended successfully,15 seconds
++48666395839,Failed,2024-09-13 11:53:39,cancel,0 seconds
++48612844678,Failed,2024-09-13 11:53:45,cancel,0 seconds
++48507600392,Failed,2024-09-13 11:54:47,cancel,0 seconds
++48512227882,Failed,2024-09-13 11:54:49,cancel,0 seconds
++48508189298,Success,2024-09-13 11:54:51,Call ended successfully,46 seconds
++48786015742,Failed,2024-09-13 11:54:58,cancel,0 seconds
++48605686927,Failed,2024-09-13 11:55:00,cancel,0 seconds
++48721902198,Failed,2024-09-13 11:55:18,cancel,0 seconds
++48512815915,Failed,2024-09-13 11:55:20,cancel,0 seconds
++48696243918,Failed,2024-09-13 11:55:29,cancel,0 seconds
++48606307757,Failed,2024-09-13 11:55:31,cancel,0 seconds
++48784824566,Failed,2024-09-13 11:56:37,cancel,0 seconds
++48661314331,Failed,2024-09-13 11:56:39,cancel,0 seconds
++48605242547,Failed,2024-09-13 11:56:45,voicemail detected,4 seconds
++48607162590,Failed,2024-09-13 11:56:48,cancel,0 seconds
++48604098422,Failed,2024-09-13 11:56:50,User inactive for 300 seconds,523 seconds
++48661011280,Failed,2024-09-13 11:57:02,cancel,0 seconds
++48791913909,Failed,2024-09-13 11:57:09,cancel,0 seconds
++48795127958,Failed,2024-09-13 11:57:11,cancel,0 seconds
++48697032748,Failed,2024-09-13 11:57:20,cancel,0 seconds
++48607526435,Failed,2024-09-13 11:58:26,voicemail detected,4 seconds
++48600273333,Failed,2024-09-13 11:58:28,cancel,0 seconds
++48691203350,Failed,2024-09-13 11:58:30,cancel,0 seconds
++48696414767,Failed,2024-09-13 11:58:34,cancel,0 seconds
++48604605909,Failed,2024-09-13 11:58:37,cancel,0 seconds
++48506123104,Failed,2024-09-13 11:58:58,cancel,0 seconds
++48731213282,Failed,2024-09-13 11:59:00,cancel,0 seconds
++48509792082,Failed,2024-09-13 11:59:02,cancel,0 seconds
++48887053883,Success,2024-09-13 11:59:05,Call ended successfully,32 seconds
++48782341971,Failed,2024-09-13 11:59:09,cancel,0 seconds
++48786048910,Failed,2024-09-13 12:00:16,cancel,0 seconds
++48502240162,Failed,2024-09-13 12:00:19,cancel,0 seconds
++48796540315,Failed,2024-09-13 12:00:22,voicemail detected,8 seconds
++48601647424,Failed,2024-09-13 12:00:25,cancel,0 seconds
++48509476226,Success,2024-09-13 12:00:30,Call ended successfully,6 seconds
++48660964724,Failed,2024-09-13 12:00:49,voicemail detected,3 seconds
++48508593687,Failed,2024-09-13 12:00:50,cancel,0 seconds
++48508490180,Success,2024-09-13 12:00:54,Call ended successfully,26 seconds
++48501641977,Failed,2024-09-13 12:00:57,cancel,0 seconds
++48605160665,Failed,2024-09-13 12:01:01,cancel,0 seconds
++48734451653,Failed,2024-09-13 12:01:05,cancel,0 seconds
++48663065455,Failed,2024-09-13 12:02:07,cancel,0 seconds
++48513734755,Failed,2024-09-13 12:02:10,cancel,0 seconds
++48502328453,Success,2024-09-13 12:02:13,bye,0 seconds
++48784827680,Failed,2024-09-13 12:02:17,cancel,0 seconds
++48782055021,Failed,2024-09-13 12:02:21,cancel,0 seconds
++48507640083,Failed,2024-09-13 12:02:29,voicemail detected,4 seconds
++48782119109,Success,2024-09-13 12:02:38,bye,34 seconds
++48504103625,Failed,2024-09-13 12:02:41,cancel,0 seconds
++48693531291,Success,2024-09-13 12:02:45,Call ended successfully,29 seconds
++48697706708,Success,2024-09-13 12:02:49,Call ended successfully,5 seconds
++48505077234,Success,2024-09-13 12:02:52,bye,0 seconds
++48728713535,Failed,2024-09-13 12:03:55,voicemail detected,2 seconds
++48660184220,Success,2024-09-13 12:03:57,Call ended successfully,28 seconds
++48603941153,Failed,2024-09-13 12:04:01,cancel,0 seconds
++48534961279,Failed,2024-09-13 12:04:05,cancel,0 seconds
++48506490537,Failed,2024-09-13 12:04:08,cancel,0 seconds
++48790209438,Failed,2024-09-13 12:04:26,cancel,0 seconds
++48660634853,Failed,2024-09-13 12:04:32,cancel,0 seconds
++48604471503,Failed,2024-09-13 12:04:37,cancel,0 seconds
++48530085440,Success,2024-09-13 12:04:39,Call ended successfully,29 seconds
++48694469122,Failed,2024-09-13 12:04:44,cancel,0 seconds
++48605548055,Success,2024-09-13 12:05:46,bye,33 seconds
++48606184258,Failed,2024-09-13 12:05:47,cancel,0 seconds
++48885035784,Failed,2024-09-13 12:05:49,cancel,0 seconds
++48880541145,Failed,2024-09-13 12:05:53,cancel,0 seconds
++48884889902,Failed,2024-09-13 12:05:56,cancel,0 seconds
++48734129124,Success,2024-09-13 12:05:57,Call ended successfully,18 seconds
++48517712778,Failed,2024-09-13 12:06:20,cancel,0 seconds
++48604506606,Success,2024-09-13 12:06:22,bye,106 seconds
++48507933584,Failed,2024-09-13 12:06:24,cancel,0 seconds
++48605852001,Success,2024-09-13 12:06:27,Call ended successfully,8 seconds
++48509267793,Failed,2024-09-13 12:06:29,cancel,0 seconds
++48505096460,Failed,2024-09-13 12:07:37,cancel,0 seconds
++48606823999,Failed,2024-09-13 12:07:41,voicemail detected,3 seconds
