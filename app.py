@@ -8,13 +8,15 @@ import os
 import logging
 import threading 
 import dialer
+import json
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from sqlalchemy.orm import Session
 import pytz
+from flask_migrate import Migrate
 
 # Ustawienie domyślnej strefy czasowej na Warszawę
 default_timezone = pytz.timezone('Europe/Warsaw')
@@ -36,6 +38,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new_database.db'
 print(app.config['SQLALCHEMY_DATABASE_URI'])
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 UPLOAD_FOLDER = 'static/uploads'
@@ -54,6 +57,29 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(150), nullable=False)
     role = db.Column(db.String(50), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
+    blacklist = db.Column(db.Text)  # Przechowuj zablokowane numery jako ciąg znaków oddzielony przecinkami
+
+    def add_to_blacklist(self, number):
+        if self.blacklist:
+            blacklist = set(self.blacklist.split(','))
+            blacklist.add(number)
+            self.blacklist = ','.join(blacklist)
+        else:
+            self.blacklist = number
+        db.session.commit()
+
+    def remove_from_blacklist(self, number):
+        if self.blacklist:
+            blacklist = set(self.blacklist.split(','))
+            if number in blacklist:
+                blacklist.remove(number)
+                self.blacklist = ','.join(blacklist) if blacklist else None
+                db.session.commit()
+                return True
+        return False
+
+    def get_blacklist(self):
+        return self.blacklist.split(',') if self.blacklist else []
 
 class Archive(db.Model):
     __tablename__ = 'archive'
@@ -139,10 +165,12 @@ def login():
 
 
 @app.route('/logout')
+@login_required
 def logout():
-        session.clear()
-        flash('You have been logged out.')
-        return redirect(url_for('login'))
+    logout_user()
+    session.clear()
+    flash('Zostałeś wylogowany.', 'info')
+    return render_template('logout.html')
 
 @app.route('/admin')
 @login_required
@@ -192,23 +220,49 @@ def delete_user(user_id):
 @app.route('/')
 @login_required
 def index():
-    return render_template('dashboard.html')
+    return render_template('dashboard.html', stats=stats)
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET'])
 @login_required
 def dashboard():
+    filter_date = request.args.get('filter_date')  # Pobierz datę z parametrów zapytania
+    app.logger.info(f'Filter date: {filter_date}')  # Logowanie daty filtra
+
+    query = Archive.query.filter_by(user_id=current_user.id)  # Filtruj po user_id
+    
+    if filter_date:
+        try:
+            filter_date = datetime.strptime(filter_date, '%Y-%m-%d').date()  # Przekształć datę
+            query = query.filter(db.func.date(Archive.date) == filter_date)  # Filtrowanie po dacie
+        except ValueError:
+            flash('Nieprawidłowy format daty', 'error')  # Obsługa błędu formatu daty
+    
+    # Zbieranie danych statystycznych
+    total_calls = query.with_entities(db.func.sum(Archive.total_calls)).scalar() or 0
+    successful_calls = query.with_entities(db.func.sum(Archive.successful_calls)).scalar() or 0
+    failed_calls = query.with_entities(db.func.sum(Archive.failed_calls)).scalar() or 0
+    voicemail_calls = query.with_entities(db.func.sum(Archive.voicemail_calls)).scalar() or 0
+    cancelled_calls = query.with_entities(db.func.sum(Archive.cancelled_calls)).scalar() or 0
+    bye_status_calls = query.with_entities(db.func.sum(Archive.bye_status_calls)).scalar() or 0
+    call_ended_successfully = query.with_entities(db.func.sum(Archive.call_ended_successfully)).scalar() or 0
+    other_errors = query.with_entities(db.func.sum(Archive.other_errors)).scalar() or 0
+    average_call_duration = query.with_entities(db.func.avg(Archive.average_call_duration)).scalar() or 0
+
     stats = {
-        'total_calls': 1000,
-        'successful_calls': 600,
-        'failed_calls': 150,
-        'voicemail_calls': 50,
-        'cancelled_calls': 100,
-        'bye_status_calls': 70,
-        'call_ended_successfully': 30,
-        'other_errors': 100,
-        'average_call_duration': 120
+        'total_calls': total_calls,
+        'successful_calls': successful_calls,
+        'failed_calls': failed_calls,
+        'voicemail_calls': voicemail_calls,
+        'cancelled_calls': cancelled_calls,
+        'bye_status_calls': bye_status_calls,
+        'call_ended_successfully': call_ended_successfully,
+        'other_errors': other_errors,
+        'average_call_duration': average_call_duration,
     }
-    return render_template('dashboard.html', stats=stats)
+    
+    app.logger.info(f'Total Calls: {total_calls}, Successful Calls: {successful_calls}, Failed Calls: {failed_calls}, Voicemail Calls: {voicemail_calls}, Cancelled Calls: {cancelled_calls}, Bye Status Calls: {bye_status_calls}, Other Errors: {other_errors}')
+    
+    return render_template('dashboard.html', stats=stats, filter_date=filter_date)  # Renderuj szablon
 
 
 @app.route('/archive')
@@ -306,31 +360,43 @@ def get_statuses():
 def load_contacts(filepath):
     global contacts
     contacts = []
+    blacklisted_numbers = current_user.get_blacklist()
     with open(filepath, newline='') as csvfile:
         csvreader = csv.reader(csvfile)
         for row in csvreader:
+            phone = f"+{row[0].strip()}"
+            if phone not in blacklisted_numbers:
+                contact = {
+                    'phone': phone,
+                    'status': 'Not Called',
+                    'time': '',
+                    'reason': '',
+                    'duration': ''
+                }
+                contacts.append(contact)
+            else:
+                logging.info(f"Pominięto numer z blacklisty: {phone}")
+
+@app.route('/add_contact', methods=['POST'])
+@login_required
+def add_contact():
+    phone = request.form['phone']
+    if phone:
+        phone = f"+{phone.strip()}"
+        if phone not in current_user.get_blacklist():
             contact = {
-                'phone': f"+{row[0].strip()}",
+                'phone': phone,
                 'status': 'Not Called',
                 'time': '',
                 'reason': '',
                 'duration': ''
             }
             contacts.append(contact)
-
-@app.route('/add_contact', methods=['POST'])
-def add_contact():
-    phone = request.form['phone']
-    if phone:
-        contact = {
-            'phone': f"+{phone.strip()}",
-            'status': 'Not Called',
-            'time': '',
-            'reason': '',
-            'duration': ''
-        }
-        contacts.append(contact)
-        logging.info(f"Manually added contact: {contact}")
+            logging.info(f"Ręcznie dodano kontakt: {contact}")
+            flash('Kontakt dodany pomyślnie.', 'success')
+        else:
+            logging.info(f"Próba dodania numeru z blacklisty: {phone}")
+            flash('Numer jest na czarnej liście i został pominięty.', 'warning')
     return redirect(url_for('dialer_view'))
 
 @app.route('/export_csv')
@@ -373,9 +439,11 @@ def stop_dialing():
     return jsonify({'message': 'Dialing stopped'})
 
 @app.route('/configuration')
-@login_required
+@login_required  # Upewnij się, że użytkownik jest zalogowany
 def configuration():
-    return render_template('configuration.html')
+    user_id = current_user.id  # Zakładając, że używasz Flask-Login
+    bots = get_bots_from_database(user_id)  # Przekazanie user_id do funkcji
+    return render_template('configuration.html', bots=bots)
 
 
 @app.route('/create_user', methods=['GET', 'POST'])
@@ -490,20 +558,18 @@ def delete_archive_entry(entry_id):
 @login_required
 def dashboard_stats():
     try:
-        from datetime import datetime
+        filter_date = request.args.get('filter_date')
+        if filter_date:
+            filter_date = datetime.strptime(filter_date, '%Y-%m-%d').date()
+            query = Archive.query.filter_by(user_id=current_user.id).filter(db.func.date(Archive.date) == filter_date)
+        else:
+            query = Archive.query.filter_by(user_id=current_user.id)
 
-        # Pobranie dzisiejszej daty
-        today = datetime.utcnow().date()
-
-        # Filtruj wpisy z archiwum na podstawie daty i aktualnego użytkownika
-        entries = Archive.query.filter(
-            db.func.date(Archive.date) == today,
-            Archive.user_id == current_user.id  # Dodanie filtrowania po user_id
-        ).all()
+        entries = query.all()
 
         if not entries:
-            logging.info("No entries found for today's date.")
-            return jsonify({'message': 'No data available for today'})
+            logging.info("No entries found for the given date.")
+            return jsonify({'message': 'No data available for the given date'})
         
         total_call_duration = sum(entry.average_call_duration * entry.total_calls for entry in entries)
 
@@ -534,11 +600,8 @@ def dashboard_stats():
 @login_required
 def calls_over_time():
     try:
-        from datetime import datetime, timedelta
-
-        # Pobierz dane dla ostatnich 30 dni (lub dowolnej innej liczby dni/miesięcy)
         days_ago = request.args.get('days_ago', 30, type=int)
-        end_date = datetime.utcnow()
+        end_date = warsaw_now()  # Użyj lokalnej strefy czasowej
         start_date = end_date - timedelta(days=days_ago)
 
         calls_over_time = db.session.query(
@@ -564,10 +627,8 @@ def calls_over_time():
 @login_required
 def success_rate_over_time():
     try:
-        from datetime import datetime, timedelta
-
         days_ago = request.args.get('days_ago', 30, type=int)
-        end_date = datetime.utcnow()
+        end_date = warsaw_now()  # Użyj lokalnej strefy czasowej
         start_date = end_date - timedelta(days=days_ago)
 
         success_rate_over_time = db.session.query(
@@ -590,9 +651,204 @@ def success_rate_over_time():
         logging.error(f"Error in success_rate_over_time: {e}")
         return jsonify({'error': 'An error occurred while fetching success rate over time.'}), 500
 
+@app.route('/blacklist', methods=['GET', 'POST'])
+@login_required
+def blacklist():
+    if request.method == 'POST':
+        number = request.form.get('number')
+        if number:
+            current_user.add_to_blacklist(number)
+            flash('Number added to blacklist', 'success')
+        return redirect(url_for('blacklist'))
+    
+    search_query = request.args.get('search', '')
+    blacklisted_numbers = current_user.get_blacklist()
+    
+    if search_query:
+        blacklisted_numbers = [num for num in blacklisted_numbers if search_query in num]
+    
+    # Paginacja
+    page = request.args.get('page', 1, type=int)
+    per_page = 25
+    total_numbers = len(blacklisted_numbers)
+    total_pages = (total_numbers + per_page - 1) // per_page  # Zaokrąglij w górę
+    start = (page - 1) * per_page
+    end = start + per_page
+    blacklisted_numbers = blacklisted_numbers[start:end]
+    
+    return render_template('blacklist.html', blacklisted_numbers=blacklisted_numbers, search_query=search_query, current_page=page, total_pages=total_pages)
 
+@app.route('/remove_from_blacklist', methods=['POST'])
+@login_required
+def remove_from_blacklist():
+    data = request.json
+    number = data.get('number')
+    if number:
+        success = current_user.remove_from_blacklist(number)
+        return jsonify({'success': success})
+    return jsonify({'success': False})
+
+@app.route('/upload_blacklist', methods=['POST'])
+@login_required
+def upload_blacklist():
+    if 'file' not in request.files:
+        flash('No file part', 'danger')
+        return redirect(url_for('blacklist'))
+    
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file', 'danger')
+        return redirect(url_for('blacklist'))
+    
+    if allowed_file(file.filename):
+        # Przetwarzanie pliku CSV
+        csvreader = csv.reader(file.stream.read().decode('utf-8').splitlines())
+        for row in csvreader:
+            number = row[0].strip()  # Zakładamy, że numery są w pierwszej kolumnie
+            current_user.add_to_blacklist(number)
+        flash('Numbers added to blacklist from file.', 'success')
+    else:
+        flash('Invalid file type. Only CSV files are allowed.', 'danger')
+    
+    return redirect(url_for('blacklist'))
+
+
+# Definicja funkcji load_data
+def load_data():
+    with open('data.json', 'r') as f:
+        return json.load(f)
+    
+@app.route('/builder', methods=['GET', 'POST'])
+@login_required
+def builder():
+    user_id = current_user.id
+    assistants = Assistant.query.filter_by(user_id=user_id).all()
+    return render_template('builder.html', assistants=assistants)
+
+
+
+@app.route('/add_to_blacklist', methods=['POST'])
+@login_required
+def add_to_blacklist():
+    data = request.json
+    number = data.get('number')
+    if number:
+        current_user.add_to_blacklist(number)
+        return jsonify({'success': True})
+    return jsonify({'success': False})
+
+# Model dla botów
+class Chatbot(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+    settings = db.Column(db.JSON, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+class Config(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    client_id = db.Column(db.String(255), nullable=False)
+    secret_key = db.Column(db.String(255), nullable=False)
+    bot_id = db.Column(db.Integer, db.ForeignKey('chatbot.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+def get_bots_from_database(user_id):
+    return Chatbot.query.filter_by(user_id=user_id).all()  # Pobiera wszystkie boty dla danego użytkownika
+
+class Assistant(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    language_model = db.Column(db.String(100), nullable=False)
+    prompt = db.Column(db.Text, nullable=False)
+    welcome_message = db.Column(db.String(255), nullable=False)
+    actions = db.Column(db.Text, nullable=False)
+    avatar = db.Column(db.String(255), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Assistant {self.name}>'
+
+@app.route('/save_bot', methods=['POST'])
+@login_required
+def save_bot():
+    bot_name = request.form.get('bot_name')
+    language_model = request.form.get('language_model')
+    prompt = request.form.get('prompt')
+    welcome_message = request.form.get('welcome_message')
+    actions = request.form.get('actions')
+    avatar = request.form.get('avatar')  # Assuming avatar is a URL or file path
+
+    new_bot = Assistant(
+        name=bot_name,
+        language_model=language_model,
+        prompt=prompt,
+        welcome_message=welcome_message,
+        actions=actions,
+        avatar=avatar,
+        user_id=current_user.id  # Assuming you have a user system
+    )
+
+    db.session.add(new_bot)
+    db.session.commit()
+
+    print(f"New assistant created: {new_bot}")  # Add this line for debugging
+
+    flash('Assistant created successfully!', 'success')
+    return redirect(url_for('builder'))
+
+@app.route('/delete_assistant/<int:id>', methods=['POST'])
+@login_required
+def delete_assistant(id):
+    assistant = Assistant.query.get_or_404(id)
+    if assistant.user_id != current_user.id:
+        return jsonify({'success': False, 'message': 'Unauthorized'}), 403
+    
+    db.session.delete(assistant)
+    db.session.commit()
+    return jsonify({'success': True})
+
+@app.route('/edit_assistant/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_assistant(id):
+    assistant = Assistant.query.get_or_404(id)
+    if assistant.user_id != current_user.id:
+        flash('Unauthorized', 'danger')
+        return redirect(url_for('builder'))
+    
+    if request.method == 'POST':
+        assistant.name = request.form.get('bot_name')
+        assistant.language_model = request.form.get('language_model')
+        assistant.prompt = request.form.get('prompt')
+        assistant.welcome_message = request.form.get('welcome_message')
+        assistant.actions = request.form.get('actions')
+        
+        if 'avatar' in request.files:
+            file = request.files['avatar']
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                assistant.avatar = filename
+        
+        db.session.commit()
+        flash('Assistant updated successfully!', 'success')
+        return redirect(url_for('builder'))
+    
+    return render_template('edit_assistant.html', assistant=assistant)
+
+@app.route('/test_assistant/<int:id>')
+@login_required
+def test_assistant(id):
+    assistant = Assistant.query.get_or_404(id)
+    if assistant.user_id != current_user.id:
+        flash('Unauthorized', 'danger')
+        return redirect(url_for('builder'))
+    
+    return render_template('test_assistant.html', assistant=assistant)
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()  # Tworzy tabele w bazie danych, jeśli nie istnieją
     app.run(debug=True)

@@ -1,0 +1,262 @@
+ {% extends 'base.html' %}
+
+  {% block content %}
+  <!-- Main Content -->
+  <div class="container mx-auto px-6 py-8">
+    <!-- Tabs -->
+    <div class="flex mb-4 border-b">
+      <button class="tab-link mr-4 pb-2 text-blue-500 border-b-2 border-blue-500" data-tab="builder">Builder</button>
+      <button class="tab-link mr-4 pb-2 text-gray-600" data-tab="templates">Templates</button>
+      <button class="tab-link mr-4 pb-2 text-gray-600" data-tab="integrations">Integrations</button>
+      <button class="tab-link mr-4 pb-2 text-gray-600" data-tab="assistants">Your Assistants</button>
+      <button class="tab-link mr-4 pb-2 text-gray-600" data-tab="api-keys">API Keys</button>
+      <button class="tab-link mr-4 pb-2 text-gray-600" data-tab="settings">Settings Chatbot</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="builder" class="tab-content">
+      <!-- Builder Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">Create a New Assistant</h2>
+      <form action="{{ url_for('save_bot') }}" method="POST" enctype="multipart/form-data">
+        <!-- Bot Name -->
+        <div class="mb-4 flex items-center">
+          <div class="relative mr-4">
+            <img id="avatar-preview" src="{{ url_for('static', filename='default_avatar.png') }}" class="w-16 h-16 rounded-full cursor-pointer">
+            <input type="file" name="avatar" accept="image/*" class="hidden" id="avatar-upload">
+            <label for="avatar-upload" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white rounded-full opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
+              <i class="fas fa-camera"></i>
+            </label>
+          </div>
+          <div class="flex-grow">
+            <label class="block text-gray-700">Bot Name</label>
+            <input type="text" name="bot_name" class="w-full px-3 py-2 border rounded" placeholder="Enter bot name" required>
+          </div>
+        </div>
+        <!-- Language Model -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Language Model</label>
+          <select name="language_model" class="w-full px-3 py-2 border rounded" required>
+            <option>OpenAI GPT-4o mini</option>
+            <option>Anthropic Claude 3.5 Sonnet</option>
+          </select>
+        </div>
+        <!-- Prompt -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Prompt</label>
+          <textarea name="prompt" class="w-full px-3 py-2 border rounded" rows="4" placeholder="Enter the assistant's prompt" required></textarea>
+        </div>
+        <!-- Welcome Message -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Welcome Message</label>
+          <input type="text" name="welcome_message" class="w-full px-3 py-2 border rounded" placeholder="Enter welcome message" required>
+        </div>
+        <!-- Actions -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Actions</label>
+          <input type="text" name="actions" class="w-full px-3 py-2 border rounded" placeholder="Define bot actions" required>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">OpenAI Functions (JSON)</label>
+          <textarea name="openai_functions" class="w-full px-3 py-2 border rounded" rows="4" placeholder="Enter OpenAI functions in JSON format"></textarea>
+        </div>
+        <!-- Submit Button -->
+        <div>
+          <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded">Create Assistant</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="templates" class="tab-content hidden">
+      <!-- Templates Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">Templates</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Predefined Templates -->
+        <div class="p-4 bg-white rounded shadow">
+          <h3 class="text-xl font-bold">Restaurant Bot</h3>
+          <p class="text-gray-600">Assist customers with reservations and menu inquiries.</p>
+          <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Use Template</button>
+        </div>
+        <div class="p-4 bg-white rounded shadow">
+          <h3 class="text-xl font-bold">Contact Center Bot</h3>
+          <p class="text-gray-600">Handle customer support and service requests.</p>
+          <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Use Template</button>
+        </div>
+        <div class="p-4 bg-white rounded shadow">
+          <h3 class="text-xl font-bold">Sales Bot</h3>
+          <p class="text-gray-600">Engage customers and promote products.</p>
+          <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Use Template</button>
+        </div>
+        <div class="p-4 bg-white rounded shadow">
+          <h3 class="text-xl font-bold">Custom Bot</h3>
+          <p class="text-gray-600">Create your own assistant from scratch.</p>
+          <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Create New</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="integrations" class="tab-content hidden">
+      <!-- Integrations Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">Integrations</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Google Sheets Integration -->
+        <div class="p-4 bg-white rounded shadow flex items-center">
+          <img src="https://www.gstatic.com/images/branding/product/1x/sheets_2020q4_48dp.png" class="w-12 h-12 mr-4">
+          <div>
+            <h3 class="text-xl font-bold">Google Sheets</h3>
+            <button class="mt-2 px-4 py-2 bg-green-500 text-white rounded">Integrate</button>
+          </div>
+        </div>
+        <!-- Calendly Integration -->
+        <div class="p-4 bg-white rounded shadow flex items-center">
+          <img src="https://images.ctfassets.net/k0lk9kiuza3o/2EJjW9Eb0NT8rA6nXwovRy/3919f6cde4c174fb0e7e714f8dc43f39/Calendly-logo.png" class="w-12 h-12 mr-4">
+          <div>
+            <h3 class="text-xl font-bold">Calendly</h3>
+            <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">Integrate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="assistants" class="tab-content hidden">
+      <!-- Your Assistants Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">Your Assistants</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <!-- List of Assistants -->
+        {% for assistant in assistants %}
+        <div class="p-4 bg-white rounded shadow flex items-center justify-between">
+          <div class="flex items-center">
+            <img src="{{ assistant.avatar or url_for('static', filename='default_avatar.png') }}" class="w-12 h-12 rounded-full mr-4">
+            <div>
+              <h3 class="text-xl font-bold">{{ assistant.name }}</h3>
+              <p class="text-gray-600">Using {{ assistant.language_model }}</p>
+            </div>
+          </div>
+          <div>
+            <button onclick="editAssistant({{ assistant.id }})" class="px-4 py-2 bg-yellow-500 text-white rounded mr-2">Edit</button>
+            <button onclick="testAssistant({{ assistant.id }})" class="px-4 py-2 bg-blue-500 text-white rounded">Test</button>
+            <button onclick="deleteAssistant({{ assistant.id }})" class="px-4 py-2 bg-red-500 text-white rounded ml-2">Delete</button>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div id="api-keys" class="tab-content hidden">
+      <!-- API Keys Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">API Keys</h2>
+      <form>
+        <!-- OpenAI API Key -->
+        <div class="mb-4">
+          <label class="block text-gray-700">OpenAI API Key</label>
+          <input type="text" class="w-full px-3 py-2 border rounded" placeholder="Enter your OpenAI API key">
+        </div>
+        <!-- Anthropic Claude API Key -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Claude 3.5 Anthropics API Key</label>
+          <input type="text" class="w-full px-3 py-2 border rounded" placeholder="Enter your Claude API key">
+        </div>
+        <!-- Save Button -->
+        <div>
+          <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded">Save Keys</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="settings" class="tab-content hidden">
+      <!-- Settings Chatbot Tab Content -->
+      <h2 class="text-2xl font-semibold mb-4">Chatbot Settings</h2>
+      <form>
+        <!-- Chatbot Name -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Chatbot Name</label>
+          <input type="text" class="w-full px-3 py-2 border rounded" placeholder="Enter chatbot name">
+        </div>
+        <!-- Color Selection -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Theme Color</label>
+          <input type="color" class="w-16 h-8 border rounded">
+        </div>
+        <!-- Avatar Upload -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Avatar</label>
+          <input type="file" class="w-full px-3 py-2 border rounded">
+        </div>
+        <!-- Code Embedding -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Embed Code</label>
+          <textarea class="w-full px-3 py-2 border rounded" rows="4" readonly>
+&lt;script src="your-chatbot-script.js"&gt;&lt;/script&gt;
+          </textarea>
+        </div>
+        <!-- Webhook URL -->
+        <div class="mb-4">
+          <label class="block text-gray-700">Webhook URL</label>
+          <input type="text" class="w-full px-3 py-2 border rounded" placeholder="Enter webhook URL">
+        </div>
+        <!-- Save Button -->
+        <div>
+          <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript for Tabs -->
+  <script>
+    const tabs = document.querySelectorAll('.tab-link');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-tab');
+
+        contents.forEach(content => {
+          content.classList.add('hidden');
+        });
+        tabs.forEach(t => {
+          t.classList.remove('text-blue-500', 'border-blue-500');
+          t.classList.add('text-gray-600');
+        });
+
+        document.getElementById(target).classList.remove('hidden');
+        tab.classList.remove('text-gray-600');
+        tab.classList.add('text-blue-500', 'border-blue-500');
+      });
+    });
+
+    function editAssistant(id) {
+      window.location.href = `/edit_assistant/${id}`;
+    }
+
+    function testAssistant(id) {
+      window.location.href = `/test_assistant/${id}`;
+    }
+
+    function deleteAssistant(id) {
+      if (confirm('Czy na pewno chcesz usunąć tego asystenta?')) {
+        fetch(`/delete_assistant/${id}`, { method: 'POST' })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              location.reload();
+            } else {
+              alert('Błąd podczas usuwania asystenta');
+            }
+          });
+      }
+    }
+
+    document.getElementById('avatar-upload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        document.getElementById('avatar-preview').src = e.target.result;
+      }
+      
+      reader.readAsDataURL(file);
+    });
+  </script>
+</body>
+</html>
+{% endblock %}

@@ -47,7 +47,7 @@
             
             
             <!-- Add Contacts Section -->
-            <div id="add-contacts" class="mb-16">
+            <div id="add-contacts" class="mb-8"> <!-- Dodano mb-8 -->
                 <h2 class="text-2xl font-semibold mb-4">Add Contacts</h2>
                 <div id="upload-manual-entry" class="flex justify-between space-x-4">
                     <!-- File Upload Section -->
@@ -116,11 +116,12 @@
                             <th class="py-2 px-4 border-b">Reason</th>
                             <th class="py-2 px-4 border-b">Time</th>
                             <th class="py-2 px-4 border-b">Duration</th>
+                            <th class="py-2 px-4 border-b">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for contact in contacts %}
-                        <tr>
+                        <tr id="row-{{ contact.phone }}" class="{% if contact.blacklisted %}bg-red-100{% endif %}">
                             <td class="py-2 px-4 border-b"><input type="checkbox" class="contact-checkbox" data-phone="{{ contact.phone }}"></td>
                             <td class="py-2 px-4 border-b">{{ contact.number }}</td>
                             <td class="py-2 px-4 border-b">{{ contact.phone }}</td>
@@ -128,6 +129,11 @@
                             <td class="py-2 px-4 border-b">{{ contact.reason }}</td>
                             <td class="py-2 px-4 border-b">{{ contact.time }}</td>
                             <td class="py-2 px-4 border-b">{{ contact.duration }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <button onclick="addToBlacklist('{{ contact.phone }}', this)" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-ban"></i> Add to Blacklist
+                                </button>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -149,19 +155,6 @@
                         Next
                     </a>
                 </div>
-                
-
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <div class="mt-4">
-                        {% for message in messages %}
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                                <span class="block sm:inline">{{ message }}</span>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
         </div>
     </div>
 
@@ -206,6 +199,11 @@
                             <td class="py-2 px-4 border-b">${contact.reason}</td>
                             <td class="py-2 px-4 border-b">${contact.time || ''}</td>
                             <td class="py-2 px-4 border-b">${contact.duration || ''}</td>
+                            <td class="py-2 px-4 border-b">
+                                <button onclick="addToBlacklist('${contact.phone}', this)" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-ban"></i> Add to Blacklist
+                                </button>
+                            </td>
                         `;
                         tbody.appendChild(row);
                     });
@@ -337,6 +335,31 @@
     
         // Start the fetch interval
         startFetchInterval();
+
+        function addToBlacklist(phoneNumber, button) {
+            if (confirm('Are you sure you want to add this number to the blacklist?')) {
+                fetch('/add_to_blacklist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ number: phoneNumber }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Zmiana koloru wiersza
+                        const row = button.closest('tr');
+                        row.classList.add('bg-red-100'); // Zmiana koloru wiersza na jasnoczerwony
+                        // Zmiana tekstu w kolumnie "Actions"
+                        button.innerHTML = '<i class="fas fa-check"></i> Blacklisted';
+                        button.disabled = true; // Zablokowanie przycisku
+                    } else {
+                        alert('Failed to add number to blacklist.');
+                    }
+                });
+            }
+        }
     </script>
 </body>
 </html>

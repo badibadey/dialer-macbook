@@ -1,144 +1,237 @@
-<aside class="w-64 md:block hidden bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-600 flex flex-col justify-between">
+<aside class="w-64 bg-gray-50 dark:bg-gray-800 border-r dark:border-gray-600 flex flex-col justify-between transition-transform duration-300 ease-in-out">
     <style>
         .sidebar-link {
-            font-size: 1.125rem; /* Większe litery */
-            margin-bottom: 1.5rem; /* Większe przerwy między sekcjami */
-        }
-        .sidebar-header {
-            font-size: 1.25rem; /* Większe litery dla nagłówków w sidebarze */
-            margin-bottom: 1.5rem; /* Większe przerwy między nagłówkami a sekcjami */
+            font-size: 1.1rem; /* Zwiększono z 0.9rem na 1.1rem */
+            margin-bottom: 0.5rem;
+            color: #4a5568;
         }
         .sidebar {
-    color: white;
-    padding-top: 3rem;
-    min-width: 250px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.sidebar img {
-    border-radius: 50%;
-    margin-bottom: 2rem;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar .user-info {
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-.sidebar .user-info h2 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin: 0.5rem 0;
-}
-
-.sidebar .user-info p {
-    font-size: 0.875rem;
-    color: #bdc3c7;
-}
-
-.sidebar-email {
-    display: block;
-    margin-bottom: 3rem; /* Większa przestrzeń między e-mailem a linkami do stron */
-    font-size: 1rem;
-    text-align: center; /* Wyrównanie tekstu */
-}
-.sidebar .nav {
-    width: 100%;
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar .nav li {
-    width: 100%;
-    padding: 0.75rem;
-    text-align: center;
-    transition: background 0.3s;
-}
-
-.sidebar .nav li:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar .nav li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.sidebar .nav li a .icon {
-    font-size: 1.2rem;
-}
-
-.sidebar .logout {
-    margin-top: auto;
-    margin-bottom: 1rem;
-    background-color: #e74c3c;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.sidebar .logout:hover {
-    background-color: #c0392b;
-}
-
+            color: #4a5568;
+            background-color: #f8f9fa;
+            padding-top: 1rem;
+            min-width: 250px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .dark .sidebar {
+            color: #e2e8f0;
+            background-color: #1f2937;
+        }
+        .sidebar img.logo {
+            max-width: 70%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+        .sidebar .user-info {
+            text-align: left;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #ffffff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .dark .sidebar .user-info {
+            background-color: #374151;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        .sidebar .user-info h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0;
+            color: #2d3748;
+        }
+        .dark .sidebar .user-info h2 {
+            color: #e2e8f0;
+        }
+        .sidebar .user-info p {
+            font-size: 0.8rem;
+            color: #718096;
+            margin-top: 0.25rem;
+        }
+        .dark .sidebar .user-info p {
+            color: #a0aec0;
+        }
+        .sidebar .nav {
+            width: 100%;
+            list-style: none;
+            padding: 0;
+            flex-grow: 1;
+        }
+        .sidebar .nav li {
+            width: 100%;
+            padding: 0.25rem 0;
+        }
+        .sidebar .nav li a {
+            color: #4a5568;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem; /* Zwiększono padding z 0.5rem na 0.75rem */
+            border-radius: 0.375rem;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark .sidebar .nav li a {
+            color: #e2e8f0;
+        }
+        .sidebar .nav li a:hover {
+            background-color: #edf2f7;
+            color: #2d3748;
+        }
+        .dark .sidebar .nav li a:hover {
+            background-color: #374151;
+            color: #ffffff;
+        }
+        .sidebar .nav li a .icon {
+            margin-right: 0.75rem;
+            font-size: 1rem;
+        }
+        .sidebar .logout {
+            margin: 1rem 1.5rem;
+            background-color: #e53e3e;
+            color: white;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        .sidebar .logout:hover {
+            background-color: #c53030;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                z-index: 1000;
+                transition: left 0.3s ease-in-out;
+                width: 250px;
+                height: 100vh;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 1001;
+                background-color: rgba(0, 0, 0, 0.1);
+                border: none;
+                border-radius: 0.375rem;
+                padding: 0.5rem;
+                cursor: pointer;
+                color: #4a5568;
+                transition: left 0.3s ease-in-out;
+            }
+            .sidebar.active + .sidebar-toggle {
+                left: 260px;
+            }
+            .dark .sidebar-toggle {
+                background-color: rgba(255, 255, 255, 0.1);
+                color: #e2e8f0;
+            }
+        }
     </style>
-    <div class="sidebar">
-        <a href="#" class="flex items-center pl-2.5 mb-3">
-            <img src="https://i.ibb.co/nBX0JDY/Asset-3.png" class="mr-2 h-24" alt="Ivory Logo">
-        </a>
-        <div class="text-center mb-6">
-            <h2 class="text-lg font-medium text-gray-800 dark:text-white mt-2">{{ current_user.username }}</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ current_user.email }}</p>
+    <div class="sidebar" id="sidebar">
+        <div class="px-6 mb-6">
+            <a href="#" class="flex items-center justify-center mb-6">
+                <img src="https://i.ibb.co/nBX0JDY/Asset-3.png" class="logo" alt="Ivory Logo">
+            </a>
+            <div class="user-info flex items-center">
+            
+                <div>
+                    <h2>{{ current_user.username }}</h2>
+                    <p>{{ current_user.email }}</p>
+                </div>
+            </div>
         </div>
 
-        <ul class="space-y-4">
+        <ul class="nav space-y-1">
             <li>
-                <a href="/dashboard" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span class="ml-3">Dashboard</span>
-                </a>
-            </li>
-            <li>
-                <a href="/configuration" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
-                    <i class="fas fa-cog"></i>
-                    <span class="ml-3">Configuration</span>
+                <a href="/dashboard" class="sidebar-link">
+                    <i class="fas fa-tachometer-alt icon"></i>
+                    <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="/dialer" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
-                    <i class="fas fa-phone-alt"></i>
-                    <span class="ml-3">Dialer</span>
+                <a href="/configuration" class="sidebar-link">
+                    <i class="fas fa-cog icon"></i>
+                    <span>Configuration</span>
                 </a>
             </li>
-            <li>
-                <a href="/archive" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
-                    <i class="fas fa-archive"></i>
-                    <span class="ml-3">Archive</span>
-                </a>
-            </li>
-            <li class="mb-2">
-                <a href="/admin" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 sidebar-link">
-                    <i class="fas fa-user-cog"></i>
-                    <span class="ml-2">Admin Panel</span>
-                </a>
-            </li>
-            <div class="mt-auto">
-                <button class="logout-btn bg-red-600 text-white py-2 px-4 rounded w-full mt-4">Logout</button>
-            </div>
-        </ul>
-    </div>
 
+            <li>
+                <a href="{{ url_for('builder') }}" class="sidebar-link">
+                    <i class="fas fa-robot icon"></i> <!-- Ikona robota dla Buildera -->
+                    Builder
+                </a>
+            </li>
+         <!-- Search form -->
+
+
+            <li>
+                <a href="/dialer" class="sidebar-link">
+                    <i class="fas fa-phone-alt icon"></i>
+                    <span>Dialer</span>
+                </a>
+            </li>
+            <li>
+                <a href="/archive" class="sidebar-link">
+                    <i class="fas fa-archive icon"></i>
+                    <span>Archive</span>
+                </a>
+            </li>
+            
+
+            <li>
+                <a href="{{ url_for('blacklist') }}" class="sidebar-link">
+                    <i class="fas fa-ban icon"></i>
+                    <span>Blacklist</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin" class="sidebar-link">
+                    <i class="fas fa-user-cog icon"></i>
+                    <span>Admin Panel</span>
+                </a>
+            </li>
+        
+        </ul>
+        
+        <a href="{{ url_for('logout') }}" class="logout mt-auto">
+            <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </a>
+    </div>
 </aside>
+
+<button id="sidebarToggle" class="sidebar-toggle md:hidden">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+    </svg>
+</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+        }
+
+        sidebarToggle.addEventListener('click', toggleSidebar);
+
+        // Obsługa kliknięcia poza sidebarem
+        document.addEventListener('click', function(event) {
+            if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target) && sidebar.classList.contains('active')) {
+                toggleSidebar();
+            }
+        });
+    });
+</script>

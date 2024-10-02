@@ -1,304 +1,321 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="dashboard-container flex-1 p-8 overflow-auto">
-
-
-    <h1 class="text-4xl font-bold mb-8 text-center">Dashboard</h1>
+<div class="dashboard-container flex-1 p-8 overflow-auto bg-gray-100">
+    <h1 class="text-4xl font-bold mb-8 text-center text-gray-800">Dashboard</h1>
     
-    <!-- Sekcja statystyk -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 mb-8">
 
+    <div class="mb-6">
+    <label for="filter-date" class="text-lg font-semibold mb-2 text-gray-600">Filter by Date:</label>
+    <input type="date" id="filter-date" name="filter_date" required>
+    <button id="filter-button" type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Filter
+    </button>
+</div>
+    <!-- Sekcja statystyk -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-2">Łączna liczba połączeń</h2>
-            <p id="totalCalls" class="text-3xl font-bold text-blue-600"></p>
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Total calls</h2>
+            <p id="totalCalls" class="text-3xl font-bold text-blue-600">{{ stats.total_calls }}</p>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-2">Udane połączenia</h2>
-            <p id="successfulCalls" class="text-3xl font-bold text-green-600"></p>
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Success</h2>
+            <p id="successfulCalls" class="text-3xl font-bold text-green-600">{{ stats.successful_calls }}</p>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-2">Nieudane połączenia</h2>
-            <p id="failedCalls" class="text-3xl font-bold text-red-600"></p>
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Failed</h2>
+            <p id="failedCalls" class="text-3xl font-bold text-red-600">{{ stats.failed_calls }}</p>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-2">Średni czas połączenia</h2>
-            <p id="averageCallDuration" class="text-3xl font-bold text-purple-600"></p>
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Avg. call time</h2>
+            <p id="averageCallDuration" class="text-3xl font-bold text-purple-600">{{ stats.average_call_duration|round }} sek</p>
         </div>
         <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-2">Łączny czas połączeń</h2>
-            <p id="totalCallDuration" class="text-3xl font-bold text-orange-600"></p>
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Total time</h2>
+            <p id="totalCallDuration" class="text-3xl font-bold text-orange-600">{{ stats.total_call_duration }}</p>
         </div>
     </div>
 
     <!-- Sekcja wykresów -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="flex flex-col space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
-                <h2 class="text-xl font-semibold mb-4">Statusy</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Status</h2>
+            <div class="h-[400px] w-full">
                 <canvas id="callsByStatusChart"></canvas>
             </div>
-            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
-                <h2 class="text-xl font-semibold mb-4">Nowy wykres 1</h2>
-                <canvas id="newChart1"></canvas>
-            </div>
         </div>
-        <div class="flex flex-col space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
-                <h2 class="text-xl font-semibold mb-4">Błędy</h2>
-                <canvas id="errorStatusChart"></canvas>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 w-full chart-container">
-                <h2 class="text-xl font-semibold mb-4">Nowy wykres 2</h2>
-                <canvas id="newChart2"></canvas>
-            </div>
-        </div>
-        <div class="flex flex-col space-y-6">
-            <div class="bg-white rounded-lg shadow-md p-6 chart-container">
-                <h2 class="text-xl font-semibold mb-4">Success vs Failed</h2>
+        <div class="bg-white rounded-lg shadow-md p-6 flex flex-col h-[400px]">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Success vs Failed</h2>
+            <div class="flex-grow relative">
                 <canvas id="comparisonChart"></canvas>
-            </div>
-            <div class="bg-white rounded-lg shadow-md p-6 chart-container">
-                <h2 class="text-xl font-semibold mb-4">Wskaźnik sukcesu w czasie</h2>
-                <canvas id="successRateChart"></canvas>
             </div>
         </div>
     </div>
-    
-    
-    
+
+    <!-- Dodatkowe statystyki -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Voicemail Calls</h2>
+            <p id="voicemailCalls" class="text-3xl font-bold text-orange-600">{{ stats.voicemail_calls }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Bye Status Calls</h2>
+            <p id="byeStatusCalls" class="text-3xl font-bold text-green-600">{{ stats.bye_status_calls }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Ended Successfully</h2>
+            <p id="endedSuccessfully" class="text-3xl font-bold text-blue-600">{{ stats.call_ended_successfully }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Other Errors</h2>
+            <p id="otherErrors" class="text-3xl font-bold text-yellow-600">{{ stats.other_errors }}</p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Cancelled Calls</h2>
+            <p id="cancelledCalls" class="text-3xl font-bold text-red-600">{{ stats.cancelled_calls }}</p>
+        </div>
+    </div>
+
+
+    <!-- Nowa sekcja z konwersjami pod wykresami -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Conv. % from Calls</h2>
+            <p id="conversionRate" class="text-3xl font-bold text-blue-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Bye & Success %</h2>
+            <p id="byeSuccessRate" class="text-3xl font-bold text-green-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Cancel Rate %</h2>
+            <p id="cancelRate" class="text-3xl font-bold text-red-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Missed Calls %</h2>
+            <p id="missedCallsRate" class="text-3xl font-bold text-orange-600"></p>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-2 text-gray-600">Other Errors %</h2>
+            <p id="otherErrorsRate" class="text-3xl font-bold text-purple-600"></p>
+        </div>
+    </div>
+
+    <button id="download-button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        Download Dashboard
+    </button>
+
 </div>
 
-<!-- Skrypt Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 <script>
-    // Pobieranie danych z endpointu API
-    fetch('/api/dashboard_stats')
-    .then(response => response.json())
-    .then(data => {
-        // Ustawianie danych na stronie
-        document.getElementById('totalCalls').innerText = data.total_calls;
-        document.getElementById('successfulCalls').innerText = data.successful_calls;
-        document.getElementById('failedCalls').innerText = data.failed_calls;
-        document.getElementById('averageCallDuration').innerText = Math.round(data.average_call_duration) + ' sec';
-        document.getElementById('totalCallDuration').innerText = Math.round(data.total_call_duration) + ' sec';
-
-        // Tworzenie wykresów
-        var ctxStatus = document.getElementById('callsByStatusChart').getContext('2d');
-        var callsByStatusChart = new Chart(ctxStatus, {
-            type: 'pie',
-            data: {
-                labels: ['Voicemail', 'Cancelled', 'Bye Status', 'Call Ended Successfully', 'Inne błędy'],
-                datasets: [{
-                    data: [
-                        data.voicemail_calls, 
-                        data.cancelled_calls, 
-                        data.bye_status_calls, 
-                        data.call_ended_successfully, 
-                        data.other_errors
-                    ],
-                    backgroundColor: ['#FFD700', '#FF4500', '#32CD32', '#1E90FF', '#FFA500']
-                }]
-            },
-            options: {
-            responsive: true,
-            maintainAspectRatio: true,
-           
-            
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'right', // Legenda po prawej stronie
-                    }
-                },
-                layout: {
-                    padding: {
-                        left: 10,
-                        right: 10,
-                        top: 10,
-                        bottom: 10
-                    }
-                }
-            }
+document.getElementById('download-button').addEventListener('click', function() {
+    const dashboardContainer = document.querySelector('.dashboard-container');
+    if (dashboardContainer) {
+        domtoimage.toPng(dashboardContainer, { 
+            quality: 5.0 // Ustawia jakość na 100%
+        }).then(function (dataUrl) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = 'dashboard.png';
+            link.click();
+        }).catch(function (error) {
+            console.error('Błąd podczas generowania zrzutu ekranu:', error);
         });
-
-        var ctxError = document.getElementById('errorStatusChart').getContext('2d');
-        var errorStatusChart = new Chart(ctxError, {
-            type: 'doughnut',
-            data: {
-                labels: ['Nieudane połączenia', 'Inne błędy'],
-                datasets: [{
-                    data: [
-                        data.failed_calls, 
-                        data.other_errors
-                    ],
-                    backgroundColor: ['#EF4444', '#FF6347']
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true, // Zachowanie proporcji wykresu
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    }
-                }
-            }
-        });
-
-        // Tworzenie wykresu stożkowego dla porównania
-        const ctxComparison = document.getElementById('comparisonChart').getContext('2d');
-        var comparisonChart = new Chart(ctxComparison, {
-            type: 'bar',
-            data: {
-                labels: ['Udane', 'Nieudane'],
-                datasets: [{
-                    label: 'Liczba połączeń',
-                    data: [data.successful_calls, data.failed_calls],
-                    backgroundColor: ['#32CD32', '#FF4500'] // Zielony i czerwony
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,
-                scales: {
-                    y: {
-                        beginAtZero: true,  // Ustawienie początku osi Y na 0
-                        min: 0, // Minimalna wartość osi Y
-                        max: Math.max(data.successful_calls, data.failed_calls) + 1,  // Ustawienie maksymalnej wartości osi Y z dodatkowym marginesem
-                        ticks: {
-                            stepSize: 1 // Ustawienie kroku na 1, aby wszystkie wartości były widoczne
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false // Ukryj legendę, jeśli nie jest potrzebna
-                    }
-                }
-            }
-        });
-    })
-    .catch(error => {
-        console.error('Błąd podczas pobierania danych:', error);
-    });
-        
-   // Nowy wykres 1 (przykład)
-var ctxNewChart1 = document.getElementById('newChart1').getContext('2d');
-var newChart1 = new Chart(ctxNewChart1, {
-    type: 'bar',
-    data: {
-        labels: ['Kategoria A', 'Kategoria B', 'Kategoria C', 'Kategoria D'],
-        datasets: [{
-            label: 'Wartości',
-            data: [12, 19, 3, 5],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        title: {
-            display: true,
-            text: 'Nowy wykres 1'
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
+    } else {
+        console.error('Element .dashboard-container nie został znaleziony.');
     }
 });
 
-// Nowy wykres 2 (przykład)
-var ctxNewChart2 = document.getElementById('newChart2').getContext('2d');
-var newChart2 = new Chart(ctxNewChart2, {
-    type: 'line',
-    data: {
-        labels: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj'],
-        datasets: [{
-            label: 'Trend',
-            data: [65, 59, 80, 81, 56],
-            borderColor: '#4BC0C0',
-            fill: false
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        title: {
-            display: true,
-            text: 'Nowy wykres 2'
-        },
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    const dateFilterInput = document.getElementById('filter-date'); // Pobieramy właściwy element
+    const filterButton = document.getElementById('filter-button'); // Pobieramy przycisk filtracji
+
+    // Początkowe pobranie danych bez filtrowania po dacie
+    fetchData(); // Pobierz dane globalne
+
+    // Dodaj nasłuchiwanie na kliknięcie przycisku
+    filterButton.addEventListener('click', function() {
+        const filterDate = dateFilterInput.value; // Pobierz wartość daty
+        fetchData(filterDate); // Ponowne pobranie danych przy kliknięciu przycisku
+    });
+});
+
+let callsByStatusChart; // Przechowuj referencję do wykresu
+let comparisonChart; // Przechowuj referencję do wykresu
+
+function fetchData(filterDate) {
+    let url = '/api/dashboard_stats';
+    if (filterDate) {
+        console.log('Pobieranie danych dla daty:', filterDate); // Logowanie daty
+        url += `?filter_date=${filterDate}`;
+    } else {
+        console.log('Pobieranie danych globalnych'); // Logowanie
     }
-});     
 
-
-    fetch('/api/calls_over_time')
+    fetch(url)
         .then(response => response.json())
         .then(data => {
-            var ctxOverTime = document.getElementById('callsOverTimeChart').getContext('2d');
-            var callsOverTimeChart = new Chart(ctxOverTime, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Liczba połączeń',
-                        data: data.values,
-                        borderColor: '#3B82F6',
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            console.log('Otrzymane dane:', data); // Wyświetlamy dane otrzymane z API
+            updateStatistics(data);
+            createCallsByStatusChart(data); // Aktualizacja wykresu kołowego
+            createComparisonChart(data); // Aktualizacja wykresu słupkowego
+            updateConversionRates(data);
+        })
+        .catch(error => console.error('Błąd podczas pobierania danych:', error));
+}
+
+function updateStatistics(data) {
+    document.getElementById('totalCalls').innerText = data.total_calls;
+    document.getElementById('successfulCalls').innerText = data.successful_calls;
+    document.getElementById('failedCalls').innerText = data.failed_calls;
+    document.getElementById('averageCallDuration').innerText = Math.round(data.average_call_duration) + ' sek';
+
+    // Konwersja total time na minuty, jeśli jest to powyżej minuty
+    const totalCallDuration = Math.round(data.total_call_duration);
+    if (totalCallDuration >= 60) {
+        const minutes = Math.floor(totalCallDuration / 60);
+        const seconds = totalCallDuration % 60;
+        document.getElementById('totalCallDuration').innerText = `${minutes} min ${seconds} sek`;
+    } else {
+        document.getElementById('totalCallDuration').innerText = `${totalCallDuration} sek`;
+    }
+
+    // Dodaj nowe statystyki
+    document.getElementById('voicemailCalls').innerText = data.voicemail_calls;
+    document.getElementById('byeStatusCalls').innerText = data.bye_status_calls;
+    document.getElementById('endedSuccessfully').innerText = data.call_ended_successfully;
+    document.getElementById('otherErrors').innerText = data.other_errors;
+    document.getElementById('cancelledCalls').innerText = data.cancelled_calls;
+}
+
+function createCallsByStatusChart(data) {
+    const ctx = document.getElementById('callsByStatusChart').getContext('2d');
+    
+    // Zniszcz istniejący wykres, jeśli istnieje
+    if (callsByStatusChart) {
+        callsByStatusChart.destroy();
+    }
+
+    callsByStatusChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Voicemail', 'Cancel', 'Bye', 'End Successfully', 'Other Errors'],
+            datasets: [{
+                data: [
+                    data.voicemail_calls, 
+                    data.cancelled_calls, 
+                    data.bye_status_calls, 
+                    data.call_ended_successfully, 
+                    data.other_errors
+                ],
+                backgroundColor: ['#FFA500', '#FF4500', '#32CD32', '#1E90FF', '#FFD700']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 20,
+                        font: {
+                            size: 12
                         }
                     }
                 }
-            });
-        });
+            }
+        }
+    });
+}
 
+function createComparisonChart(data) {
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+    
+    // Zniszcz istniejący wykres, jeśli istnieje
+    if (comparisonChart) {
+        comparisonChart.destroy();
+    }
 
-
-
-    fetch('/api/success_rate_over_time')
-        .then(response => response.json())
-        .then(data => {
-            var ctxSuccessRate = document.getElementById('successRateChart').getContext('2d');
-            var successRateChart = new Chart(ctxSuccessRate, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Wskaźnik sukcesu (%)',
-                        data: data.values,
-                        borderColor: '#10B981',
-                        fill: false
-                    }]
+    comparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Success', 'Failed'],
+            datasets: [{
+                label: 'Liczba połączeń',
+                data: [data.successful_calls, data.failed_calls],
+                backgroundColor: ['#32CD32', '#FF4500']
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: Math.max(data.successful_calls, data.failed_calls) * 1.2, // Ustawiamy maksymalną wartość
+                    ticks: {
+                        stepSize: Math.ceil(Math.max(data.successful_calls, data.failed_calls) / 5)
+                    }
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true, // Zachowanie proporcji wykresu
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14
                         }
                     }
                 }
-            });
-        });
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            layout: {
+                padding: {
+                    top: 20,
+                    bottom: 20
+                }
+            }
+        }
+    });
+}
 
+function updateConversionRates(data) {
+    const totalCalls = data.total_calls;
+    const successfulCalls = data.successful_calls;
+    const failedCalls = data.failed_calls;
+    const cancelledCalls = data.cancelled_calls;
+    const byeCalls = data.bye_status_calls;
+    const endedSuccessfully = data.call_ended_successfully;
+    const voicemailCalls = data.voicemail_calls;
+    const otherErrors = data.other_errors;
+
+    // Obliczanie wskaźników konwersji
+    const conversionRate = ((successfulCalls / totalCalls) * 100).toFixed(2) || 0;
+    const cancelRate = ((cancelledCalls / totalCalls) * 100).toFixed(2) || 0;
+    const byeSuccessRate = (((byeCalls + endedSuccessfully) / totalCalls) * 100).toFixed(2) || 0;
+    const missedCallsRate = ((failedCalls / totalCalls) * 100).toFixed(2) || 0;
+    const otherErrorsRate = ((voicemailCalls + otherErrors) / totalCalls * 100).toFixed(2) || 0;
+
+    // Aktualizacja wskaźników w HTML
+    document.getElementById('conversionRate').innerText = conversionRate + '%';
+    document.getElementById('cancelRate').innerText = cancelRate + '%';
+    document.getElementById('byeSuccessRate').innerText = byeSuccessRate + '%';
+    document.getElementById('missedCallsRate').innerText = missedCallsRate + '%';
+    document.getElementById('otherErrorsRate').innerText = otherErrorsRate + '%';
+}
+
+console.log('html2canvas:', html2canvas);
 </script>
+<style>
+    .chart-container {
+        position: relative;
+        height: 100%;
+        width: 100%;
+    }
+</style>
 {% endblock %}

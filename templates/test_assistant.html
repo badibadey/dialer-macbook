@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-6 py-8">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex items-center mb-4">
+            <img src="{{ url_for('static', filename='uploads/' + assistant.avatar) if assistant.avatar else url_for('static', filename='default_avatar.png') }}" class="w-16 h-16 rounded-full mr-4">
+            <h2 class="text-2xl font-semibold">Test Assistant: {{ assistant.name }}</h2>
+        </div>
+        <div class="mb-4">
+            <p><strong>Language Model:</strong> {{ assistant.language_model }}</p>
+            <p><strong>Welcome Message:</strong> {{ assistant.welcome_message }}</p>
+        </div>
+        <div class="border rounded p-4 h-64 overflow-y-auto mb-4" id="chat-window">
+            <!-- Chat messages will be appended here -->
+        </div>
+        <div class="flex">
+            <input type="text" id="user-input" class="flex-grow px-3 py-2 border rounded-l" placeholder="Type your message...">
+            <button onclick="sendMessage()" class="px-4 py-2 bg-blue-500 text-white rounded-r">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function sendMessage() {
+        const userInput = document.getElementById('user-input');
+        const chatWindow = document.getElementById('chat-window');
+        
+        if (userInput.value.trim() !== '') {
+            // Append user message
+            chatWindow.innerHTML += `<p class="mb-2"><strong>You:</strong> ${userInput.value}</p>`;
+            
+            // TODO: Send message to backend and get response
+            // For now, we'll just echo the message
+            chatWindow.innerHTML += `<p class="mb-2"><strong>Assistant:</strong> You said: ${userInput.value}</p>`;
+            
+            userInput.value = '';
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+    }
+</script>
+{% endblock %}
